@@ -4,12 +4,11 @@ package com.hyoretsu.checkers;
 public class Square {
  private int x;
  private int y;
- private Piece piece;
+ private Piece piece = null;
 
  public Square(int x, int y) {
   this.x = x;
   this.y = y;
-  this.piece = null;
  }
 
  /** @return current piece present in this square or null. */

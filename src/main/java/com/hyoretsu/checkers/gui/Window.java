@@ -10,16 +10,12 @@ import com.hyoretsu.checkers.Game;
 /** Main window of the game */
 public class Window extends JFrame {
  private Game game;
- private boolean firstClick;
- private SquareGUI originSquare;
- private SquareGUI destinationSquare;
+ private boolean firstClick = true;
+ private SquareGUI originSquare = null;
+ private SquareGUI destinationSquare = null;
 
  public Window() {
   initComponents();
-
-  this.firstClick = true;
-  this.originSquare = null;
-  this.destinationSquare = null;
   newGame();
 
   // Add action listener to "new" menu

@@ -2,10 +2,9 @@ package com.hyoretsu.checkers;
 
 /** Stores the board and each piece's position */
 public class Game {
- private Board board;
+ private Board board = new Board();
 
  public Game() {
-  board = new Board();
   createPieces();
  }
 
