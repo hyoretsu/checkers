@@ -8,16 +8,16 @@ public class Piece {
  public static final int RED_KING = 3;
 
  private Square square;
- private int type;
+ private Integer type;
 
- public Piece(Square square, int type) {
+ public Piece(Square square, Integer type) {
   this.square = square;
   this.type = type;
   square.placePiece(this);
  }
 
  /** @return type of the piece. */
- public int getType() {
+ public Integer getType() {
   return type;
  }
 
