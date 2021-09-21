@@ -14,11 +14,21 @@ public class Game {
 
  /** Creates the game's initial pieces */
  private void createPieces() {
-  Square square1 = board.getSquare(0, 0);
-  Piece piece1 = new Piece(square1, Piece.WHITE);
+  List<Integer> evenX = Arrays.asList(0, 2, 4, 6);
+  List<Integer> oddX = Arrays.asList(1, 3, 5, 7);
+  List<Integer> whiteRows = Arrays.asList(0, 1, 2);
+  List<Integer> redRows = Arrays.asList(5, 6, 7);
 
-  Square square2 = board.getSquare(7, 7);
-  Piece piece2 = new Piece(square2, Piece.RED_KING);
+  BiConsumer<Integer, Integer> placeOddOrEven = (y, color) -> {
+   if (y % 2 == 0) {
+    evenX.forEach(x -> new Piece(board.getSquare(x, y), color));
+   } else {
+    oddX.forEach(x -> new Piece(board.getSquare(x, y), color));
+   }
+  };
+
+  whiteRows.forEach(y -> placeOddOrEven.accept(y, Piece.WHITE));
+  redRows.forEach(y -> placeOddOrEven.accept(y, Piece.RED));
  }
 
  /** @return current board */
