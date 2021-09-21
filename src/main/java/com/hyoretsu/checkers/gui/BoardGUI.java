@@ -23,9 +23,9 @@ public class BoardGUI extends JPanel {
  private void createSquares() {
   squares = new SquareGUI[8][8];
   // Up-down
-  for (int y = 7; y >= 0; y--) {
+  for (Integer y = 7; y >= 0; y--) {
    // Left-right
-   for (int x = 0; x < 8; x++) {
+   for (Integer x = 0; x < 8; x++) {
     Color color = defineColor(x, y);
     SquareGUI square = new SquareGUI(x, y, color, this);
     squares[x][y] = square;
@@ -34,7 +34,7 @@ public class BoardGUI extends JPanel {
   }
  }
 
- private Color defineColor(int x, int y) {
+ private Color defineColor(Integer x, Integer y) {
   if (x % 2 == 0) { // Even line
    if (y % 2 == 0) { // Even column
     return SquareGUI.COLOR_DARK;
@@ -55,8 +55,8 @@ public class BoardGUI extends JPanel {
  }
 
  public void update(Game game) {
-  for (int x = 0; x < 8; x++) {
-   for (int y = 0; y < 8; y++) {
+  for (Integer x = 0; x < 8; x++) {
+   for (Integer y = 0; y < 8; y++) {
     SquareGUI squareGUI = squares[x][y];
 
     Board board = game.getBoard();

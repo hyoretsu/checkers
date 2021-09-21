@@ -1,5 +1,9 @@
 package com.hyoretsu.checkers;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.BiConsumer;
+
 /** Stores the board and each piece's position */
 public class Game {
  private Board board = new Board();
@@ -30,7 +34,7 @@ public class Game {
   * @param destinationX Destination square's line
   * @param destinationY Destination square's column
   */
- public void movePiece(int originX, int originY, int destinationX, int destinationY) {
+ public void movePiece(Integer originX, Integer originY, Integer destinationX, Integer destinationY) {
   Square origin = board.getSquare(originX, originY);
   Square destination = board.getSquare(destinationX, destinationY);
   Piece piece = origin.getPiece();

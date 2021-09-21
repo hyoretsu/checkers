@@ -21,15 +21,15 @@ public class SquareGUI extends JButton {
  private static final Icon RED_MAN = new ImageIcon("assets/red_man.png");
  private static final Icon RED_KING = new ImageIcon("assets/red_king.png");
  // Piece colors index
- public static final int NO_PIECE = -1;
- public static final int WHITE_PIECE = 0;
- public static final int RED_PIECE = 1;
+ public static final Integer NO_PIECE = -1;
+ public static final Integer WHITE_PIECE = 0;
+ public static final Integer RED_PIECE = 1;
 
- private int x;
- private int y;
+ private Integer x;
+ private Integer y;
  private Color color;
 
- public SquareGUI(int x, int y, Color color, BoardGUI board) {
+ public SquareGUI(Integer x, Integer y, Color color, BoardGUI board) {
   this.x = x;
   this.y = y;
   this.color = color;
@@ -69,7 +69,7 @@ public class SquareGUI extends JButton {
   setIcon(WHITE_MAN);
  }
 
- public int getPieceColor() {
+ public Integer getPieceColor() {
   Icon icon = getIcon();
 
   if (icon == WHITE_MAN || icon == WHITE_KING) {
@@ -81,11 +81,11 @@ public class SquareGUI extends JButton {
   }
  }
 
- public int getPosX() {
+ public Integer getPosX() {
   return x;
  }
 
- public int getPosY() {
+ public Integer getPosY() {
   return y;
  }
 
