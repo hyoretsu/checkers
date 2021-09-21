@@ -1,18 +1,20 @@
-package com.hyoretsu.checkers;
+package com.hyoretsu.checkers.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.hyoretsu.checkers.Game;
+
 /** Main window of the game */
-public class GameWindow extends JFrame {
+public class Window extends JFrame {
  private Game game;
  private boolean firstClick;
  private SquareGUI originSquare;
  private SquareGUI destinationSquare;
 
- public GameWindow() {
+ public Window() {
   initComponents();
 
   this.firstClick = true;

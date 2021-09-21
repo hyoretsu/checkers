@@ -1,4 +1,4 @@
-package com.hyoretsu.checkers;
+package com.hyoretsu.checkers.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;

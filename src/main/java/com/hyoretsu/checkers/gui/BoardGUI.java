@@ -1,18 +1,19 @@
-package com.hyoretsu.checkers;
+package com.hyoretsu.checkers.gui;
 
 import java.awt.Color;
 import javax.swing.JPanel;
 
+import com.hyoretsu.checkers.Board;
+import com.hyoretsu.checkers.Game;
+import com.hyoretsu.checkers.Piece;
+import com.hyoretsu.checkers.Square;
+
 /** GUI of the game board */
 public class BoardGUI extends JPanel {
- private GameWindow window;
+ private Window window;
  private SquareGUI[][] squares;
 
- /** Creates new form Board */
- public BoardGUI() {
- }
-
- public BoardGUI(GameWindow window) {
+ public BoardGUI(Window window) {
   this.window = window;
   initComponents();
   createSquares();
@@ -49,7 +50,7 @@ public class BoardGUI extends JPanel {
   }
  }
 
- public GameWindow getWindow() {
+ public Window getWindow() {
   return window;
  }
 
