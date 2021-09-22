@@ -50,7 +50,7 @@ public class SquareGUI extends JButton {
  }
 
  public void deselect() {
-  setBackground(color);
+  setBackground(this.color);
  }
 
  public void drawRedKing() {
@@ -82,11 +82,11 @@ public class SquareGUI extends JButton {
  }
 
  public Integer getPosX() {
-  return x;
+  return this.x;
  }
 
  public Integer getPosY() {
-  return y;
+  return this.y;
  }
 
  public boolean hasPiece() {

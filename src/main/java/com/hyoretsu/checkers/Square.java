@@ -13,12 +13,12 @@ public class Square {
 
  /** @return current piece present in this square or null. */
  public Piece getPiece() {
-  return piece;
+  return this.piece;
  }
 
  /** @return true if there's a piece in this square, otherwise false. */
  public boolean hasPiece() {
-  return piece != null;
+  return this.piece != null;
  }
 
  /** @param piece piece to be slotted in this square */
@@ -28,6 +28,6 @@ public class Square {
 
  /** Removes the square's current piece */
  public void removePiece() {
-  piece = null;
+  this.piece = null;
  }
 }

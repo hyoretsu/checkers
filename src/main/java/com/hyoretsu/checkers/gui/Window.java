@@ -15,18 +15,18 @@ public class Window extends JFrame {
  private SquareGUI destinationSquare = null;
 
  public Window() {
-  initComponents();
-  newGame();
+  this.initComponents();
+  this.newGame();
 
   // Add action listener to "new" menu
-  newMenu.addActionListener(new ActionListener() {
+  this.newMenu.addActionListener(new ActionListener() {
    public void actionPerformed(ActionEvent e) {
     newGame();
    }
   });
 
   // Add action listener to "exit" menu
-  exitMenu.addActionListener(new ActionListener() {
+  this.exitMenu.addActionListener(new ActionListener() {
    @Override
    public void actionPerformed(ActionEvent e) {
     dispose();
@@ -40,12 +40,12 @@ public class Window extends JFrame {
 
  /** Creates a new game and updates the board GUI. */
  private void newGame() {
-  if (!firstClick) {
-   firstClick = true;
-   originSquare.deselect();
+  if (!this.firstClick) {
+   this.firstClick = true;
+   this.originSquare.deselect();
   }
-  game = new Game();
-  update();
+  this.game = new Game();
+  this.update();
  }
 
  /**
@@ -54,26 +54,26 @@ public class Window extends JFrame {
   * @param clickedSquare Square the player just clicked.
   */
  public void respond(SquareGUI clickedSquare) {
-  if (firstClick) {
+  if (this.firstClick) {
    if (clickedSquare.hasPiece()) {
-    originSquare = clickedSquare;
-    originSquare.select();
-    firstClick = false;
+    this.originSquare = clickedSquare;
+    this.originSquare.select();
+    this.firstClick = false;
    } else { // Didn't click on a valid square
     JOptionPane.showMessageDialog(this, "Click on a piece.");
    }
   } else {
-   destinationSquare = clickedSquare;
-   game.movePiece(originSquare.getPosX(), originSquare.getPosY(), destinationSquare.getPosX(),
-     destinationSquare.getPosY());
-   originSquare.deselect();
-   firstClick = true;
-   update();
+   this.destinationSquare = clickedSquare;
+   this.game.movePiece(this.originSquare.getPosX(), this.originSquare.getPosY(), this.destinationSquare.getPosX(),
+     this.destinationSquare.getPosY());
+   this.originSquare.deselect();
+   this.firstClick = true;
+   this.update();
   }
  }
 
  private void update() {
-  boardGUI.update(game);
+  this.boardGUI.update(this.game);
  }
 
  /**
@@ -85,161 +85,156 @@ public class Window extends JFrame {
  // <editor-fold defaultstate="collapsed" desc="Generated
  // Code">//GEN-BEGIN:initComponents
  private void initComponents() {
-  linesPanel = new javax.swing.JPanel();
-  jLabel3 = new javax.swing.JLabel();
-  jLabel4 = new javax.swing.JLabel();
-  jLabel5 = new javax.swing.JLabel();
-  jLabel6 = new javax.swing.JLabel();
-  jLabel7 = new javax.swing.JLabel();
-  jLabel8 = new javax.swing.JLabel();
-  jLabel2 = new javax.swing.JLabel();
-  jLabel1 = new javax.swing.JLabel();
-  columnsPanel = new javax.swing.JPanel();
-  lbl_a = new javax.swing.JLabel();
-  lbl_b = new javax.swing.JLabel();
-  lbl_c = new javax.swing.JLabel();
-  lbl_d = new javax.swing.JLabel();
-  lbl_e = new javax.swing.JLabel();
-  lbl_f = new javax.swing.JLabel();
-  lbl_g = new javax.swing.JLabel();
-  lbl_h = new javax.swing.JLabel();
-  boardGUI = new BoardGUI(this);
-  jMenuBar1 = new javax.swing.JMenuBar();
-  archiveMenu = new javax.swing.JMenu();
-  newMenu = new javax.swing.JMenuItem();
-  jSeparator1 = new javax.swing.JPopupMenu.Separator();
-  exitMenu = new javax.swing.JMenuItem();
+  this.linesPanel = new javax.swing.JPanel();
+  this.jLabel3 = new javax.swing.JLabel();
+  this.jLabel4 = new javax.swing.JLabel();
+  this.jLabel5 = new javax.swing.JLabel();
+  this.jLabel6 = new javax.swing.JLabel();
+  this.jLabel7 = new javax.swing.JLabel();
+  this.jLabel8 = new javax.swing.JLabel();
+  this.jLabel2 = new javax.swing.JLabel();
+  this.jLabel1 = new javax.swing.JLabel();
+  this.columnsPanel = new javax.swing.JPanel();
+  this.lbl_a = new javax.swing.JLabel();
+  this.lbl_b = new javax.swing.JLabel();
+  this.lbl_c = new javax.swing.JLabel();
+  this.lbl_d = new javax.swing.JLabel();
+  this.lbl_e = new javax.swing.JLabel();
+  this.lbl_f = new javax.swing.JLabel();
+  this.lbl_g = new javax.swing.JLabel();
+  this.lbl_h = new javax.swing.JLabel();
+  this.boardGUI = new BoardGUI(this);
+  this.jMenuBar1 = new javax.swing.JMenuBar();
+  this.archiveMenu = new javax.swing.JMenu();
+  this.newMenu = new javax.swing.JMenuItem();
+  this.jSeparator1 = new javax.swing.JPopupMenu.Separator();
+  this.exitMenu = new javax.swing.JMenuItem();
 
   setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-  linesPanel.setLayout(new java.awt.GridLayout(8, 1));
+  this.linesPanel.setLayout(new java.awt.GridLayout(8, 1));
 
-  jLabel3.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
-  jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-  jLabel3.setText("7");
-  linesPanel.add(jLabel3);
+  this.jLabel3.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
+  this.jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+  this.jLabel3.setText("7");
+  this.linesPanel.add(this.jLabel3);
 
-  jLabel4.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
-  jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-  jLabel4.setText("6");
-  linesPanel.add(jLabel4);
+  this.jLabel4.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
+  this.jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+  this.jLabel4.setText("6");
+  this.linesPanel.add(this.jLabel4);
 
-  jLabel5.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
-  jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-  jLabel5.setText("5");
-  linesPanel.add(jLabel5);
+  this.jLabel5.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
+  this.jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+  this.jLabel5.setText("5");
+  this.linesPanel.add(this.jLabel5);
 
-  jLabel6.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
-  jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-  jLabel6.setText("4");
-  linesPanel.add(jLabel6);
+  this.jLabel6.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
+  this.jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+  this.jLabel6.setText("4");
+  this.linesPanel.add(this.jLabel6);
 
-  jLabel7.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
-  jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-  jLabel7.setText("3");
-  linesPanel.add(jLabel7);
+  this.jLabel7.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
+  this.jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+  this.jLabel7.setText("3");
+  this.linesPanel.add(this.jLabel7);
 
-  jLabel8.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
-  jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-  jLabel8.setText("2");
-  linesPanel.add(jLabel8);
+  this.jLabel8.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
+  this.jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+  this.jLabel8.setText("2");
+  this.linesPanel.add(this.jLabel8);
 
-  jLabel2.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
-  jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-  jLabel2.setText("1");
-  linesPanel.add(jLabel2);
+  this.jLabel2.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
+  this.jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+  this.jLabel2.setText("1");
+  this.linesPanel.add(this.jLabel2);
 
-  jLabel1.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
-  jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-  jLabel1.setText("0");
-  linesPanel.add(jLabel1);
+  this.jLabel1.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
+  this.jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+  this.jLabel1.setText("0");
+  this.linesPanel.add(this.jLabel1);
 
-  columnsPanel.setLayout(new java.awt.GridLayout(1, 8));
+  this.columnsPanel.setLayout(new java.awt.GridLayout(1, 8));
 
-  lbl_a.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
-  lbl_a.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-  lbl_a.setText("0");
-  columnsPanel.add(lbl_a);
+  this.lbl_a.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
+  this.lbl_a.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+  this.lbl_a.setText("0");
+  this.columnsPanel.add(this.lbl_a);
 
-  lbl_b.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
-  lbl_b.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-  lbl_b.setText("1");
-  columnsPanel.add(lbl_b);
+  this.lbl_b.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
+  this.lbl_b.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+  this.lbl_b.setText("1");
+  this.columnsPanel.add(this.lbl_b);
 
-  lbl_c.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
-  lbl_c.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-  lbl_c.setText("2");
-  columnsPanel.add(lbl_c);
+  this.lbl_c.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
+  this.lbl_c.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+  this.lbl_c.setText("2");
+  this.columnsPanel.add(this.lbl_c);
 
-  lbl_d.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
-  lbl_d.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-  lbl_d.setText("3");
-  columnsPanel.add(lbl_d);
+  this.lbl_d.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
+  this.lbl_d.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+  this.lbl_d.setText("3");
+  this.columnsPanel.add(this.lbl_d);
 
-  lbl_e.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
-  lbl_e.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-  lbl_e.setText("4");
-  columnsPanel.add(lbl_e);
+  this.lbl_e.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
+  this.lbl_e.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+  this.lbl_e.setText("4");
+  this.columnsPanel.add(this.lbl_e);
 
-  lbl_f.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
-  lbl_f.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-  lbl_f.setText("5");
-  columnsPanel.add(lbl_f);
+  this.lbl_f.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
+  this.lbl_f.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+  this.lbl_f.setText("5");
+  this.columnsPanel.add(this.lbl_f);
 
-  lbl_g.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
-  lbl_g.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-  lbl_g.setText("6");
-  columnsPanel.add(lbl_g);
+  this.lbl_g.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
+  this.lbl_g.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+  this.lbl_g.setText("6");
+  this.columnsPanel.add(this.lbl_g);
 
-  lbl_h.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
-  lbl_h.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-  lbl_h.setText("7");
-  columnsPanel.add(lbl_h);
+  this.lbl_h.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
+  this.lbl_h.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+  this.lbl_h.setText("7");
+  this.columnsPanel.add(this.lbl_h);
 
-  archiveMenu.setText("Jogo");
+  this.archiveMenu.setText("Jogo");
 
-  newMenu.setAccelerator(
+  this.newMenu.setAccelerator(
     javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
-  newMenu.setText("Novo");
-  archiveMenu.add(newMenu);
-  archiveMenu.add(jSeparator1);
+  this.newMenu.setText("Novo");
+  this.archiveMenu.add(this.newMenu);
+  this.archiveMenu.add(this.jSeparator1);
 
-  exitMenu.setAccelerator(
+  this.exitMenu.setAccelerator(
     javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-  exitMenu.setText("Sair");
-  archiveMenu.add(exitMenu);
+  this.exitMenu.setText("Sair");
+  this.archiveMenu.add(this.exitMenu);
 
-  jMenuBar1.add(archiveMenu);
+  this.jMenuBar1.add(this.archiveMenu);
 
-  setJMenuBar(jMenuBar1);
+  setJMenuBar(this.jMenuBar1);
 
   javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
   getContentPane().setLayout(layout);
-  layout
-    .setHorizontalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(
-          layout.createSequentialGroup().addContainerGap()
-            .addComponent(linesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-              javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-              .addComponent(columnsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE).addComponent(
-                boardGUI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-  layout
-    .setVerticalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup().addGap(10, 10, 10)
-          .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(linesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 576,
-              javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(boardGUI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-              Short.MAX_VALUE))
-          .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-          .addComponent(columnsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-            javax.swing.GroupLayout.PREFERRED_SIZE)
-          .addContainerGap()));
+  layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    .addGroup(layout.createSequentialGroup().addContainerGap()
+      .addComponent(this.linesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+        javax.swing.GroupLayout.PREFERRED_SIZE)
+      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+      .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+        .addComponent(this.columnsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE).addComponent(
+          this.boardGUI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+      .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+  layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    .addGroup(layout.createSequentialGroup().addGap(10, 10, 10)
+      .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addComponent(this.linesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 576,
+          javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(this.boardGUI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+          Short.MAX_VALUE))
+      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+      .addComponent(this.columnsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+        javax.swing.GroupLayout.PREFERRED_SIZE)
+      .addContainerGap()));
 
   pack();
  }// </editor-fold>//GEN-END:initComponents

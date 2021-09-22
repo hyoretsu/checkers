@@ -15,20 +15,20 @@ public class BoardGUI extends JPanel {
 
  public BoardGUI(Window window) {
   this.window = window;
-  initComponents();
-  createSquares();
+  this.initComponents();
+  this.createSquares();
  }
 
  /** Fills the board with 64 squares */
  private void createSquares() {
-  squares = new SquareGUI[8][8];
+  this.squares = new SquareGUI[8][8];
   // Up-down
   for (Integer y = 7; y >= 0; y--) {
    // Left-right
    for (Integer x = 0; x < 8; x++) {
-    Color color = defineColor(x, y);
+    Color color = this.defineColor(x, y);
     SquareGUI square = new SquareGUI(x, y, color, this);
-    squares[x][y] = square;
+    this.squares[x][y] = square;
     add(square);
    }
   }
@@ -51,13 +51,13 @@ public class BoardGUI extends JPanel {
  }
 
  public Window getWindow() {
-  return window;
+  return this.window;
  }
 
  public void update(Game game) {
   for (Integer x = 0; x < 8; x++) {
    for (Integer y = 0; y < 8; y++) {
-    SquareGUI squareGUI = squares[x][y];
+    SquareGUI squareGUI = this.squares[x][y];
 
     Board board = game.getBoard();
     Square square = board.getSquare(x, y);

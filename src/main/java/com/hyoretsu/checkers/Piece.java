@@ -18,7 +18,7 @@ public class Piece {
 
  /** @return type of the piece. */
  public Integer getType() {
-  return type;
+  return this.type;
  }
 
  /**
@@ -27,8 +27,8 @@ public class Piece {
   * @param destination new square of this piece.
   */
  public void move(Square destination) {
-  square.removePiece();
+  this.square.removePiece();
   destination.placePiece(this);
-  square = destination;
+  this.square = destination;
  }
 }
