@@ -16,10 +16,10 @@ public class SquareGUI extends JButton {
  public static final Color COLOR_DARK = new Color(65, 41, 1);
  private static final Color COLOR_SELECTED = new Color(0, 1, 0, 0.4f);
  // Icons
- private static final Icon WHITE_MAN = new ImageIcon("assets/white_man.png");
- private static final Icon WHITE_KING = new ImageIcon("assets/white_king.png");
- private static final Icon RED_MAN = new ImageIcon("assets/red_man.png");
- private static final Icon RED_KING = new ImageIcon("assets/red_king.png");
+ public final Icon WHITE_MAN = new ImageIcon("assets/white_man.png");
+ public final Icon WHITE_KING = new ImageIcon("assets/white_king.png");
+ public final Icon RED_MAN = new ImageIcon("assets/red_man.png");
+ public final Icon RED_KING = new ImageIcon("assets/red_king.png");
  // Piece colors index
  public static final Integer NO_PIECE = -1;
  public static final Integer WHITE_PIECE = 0;
@@ -33,13 +33,11 @@ public class SquareGUI extends JButton {
   this.x = x;
   this.y = y;
   this.color = color;
-  setIcon(null);
 
   // Layout and color
   setBackground(color);
-  setOpaque(false);
-  setBorder(BorderFactory.createLineBorder(color, 1));
   setContentAreaFilled(false);
+  setBorder(BorderFactory.createLineBorder(color, 1));
 
   addActionListener(new ActionListener() {
    @Override
@@ -53,20 +51,8 @@ public class SquareGUI extends JButton {
   setBackground(this.color);
  }
 
- public void drawRedKing() {
-  setIcon(RED_KING);
- }
-
- public void drawRedPiece() {
-  setIcon(RED_MAN);
- }
-
- public void drawWhiteKing() {
-  setIcon(WHITE_KING);
- }
-
- public void drawWhitePiece() {
-  setIcon(WHITE_MAN);
+ public void draw(Icon pieceType) {
+  setIcon(pieceType);
  }
 
  public Integer getPieceColor() {
