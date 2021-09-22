@@ -9,7 +9,7 @@ public class Game {
  private Board board = new Board();
 
  public Game() {
-  createPieces();
+  this.createPieces();
  }
 
  /** Creates the game's initial pieces */
@@ -21,9 +21,9 @@ public class Game {
 
   BiConsumer<Integer, Integer> placeOddOrEven = (y, color) -> {
    if (y % 2 == 0) {
-    evenX.forEach(x -> new Piece(board.getSquare(x, y), color));
+    evenX.forEach(x -> new Piece(this.board.getSquare(x, y), color));
    } else {
-    oddX.forEach(x -> new Piece(board.getSquare(x, y), color));
+    oddX.forEach(x -> new Piece(this.board.getSquare(x, y), color));
    }
   };
 
@@ -33,7 +33,7 @@ public class Game {
 
  /** @return current board */
  public Board getBoard() {
-  return board;
+  return this.board;
  }
 
  /**
@@ -45,8 +45,8 @@ public class Game {
   * @param destinationY Destination square's column
   */
  public void movePiece(Integer originX, Integer originY, Integer destinationX, Integer destinationY) {
-  Square origin = board.getSquare(originX, originY);
-  Square destination = board.getSquare(destinationX, destinationY);
+  Square origin = this.board.getSquare(originX, originY);
+  Square destination = this.board.getSquare(destinationX, destinationY);
   Piece piece = origin.getPiece();
   piece.move(destination);
  }

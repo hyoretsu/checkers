@@ -8,7 +8,7 @@ public class Board {
   for (Integer x = 0; x < 8; x++) {
    for (Integer y = 0; y < 8; y++) {
     Square square = new Square(x, y);
-    squares[x][y] = square;
+    this.squares[x][y] = square;
    }
   }
  }
@@ -20,6 +20,6 @@ public class Board {
   * @return Square at coordinate (x, y)
   */
  public Square getSquare(Integer x, Integer y) {
-  return squares[x][y];
+  return this.squares[x][y];
  }
 }
