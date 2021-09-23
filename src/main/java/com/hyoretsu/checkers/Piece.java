@@ -3,10 +3,9 @@ package com.hyoretsu.checkers;
 /** A checkers piece */
 public class Piece {
  public static final int WHITE = 0;
- public static final int WHITE_KING = 1;
- public static final int RED = 2;
- public static final int RED_KING = 3;
+ public static final int RED = 1;
 
+ private Boolean isKing = false;
  private Square square;
  private Integer type;
 
@@ -16,9 +15,20 @@ public class Piece {
   square.placePiece(this);
  }
 
+ public Piece(Square square, Integer type, Boolean isKing) {
+  this.isKing = isKing;
+  this.square = square;
+  this.type = type;
+  square.placePiece(this);
+ }
+
  /** @return type of the piece. */
- public Integer getType() {
+ public Integer getColor() {
   return this.type;
+ }
+
+ public Boolean isKing() {
+  return this.isKing;
  }
 
  /**
