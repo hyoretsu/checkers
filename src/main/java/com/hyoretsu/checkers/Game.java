@@ -16,8 +16,8 @@ public class Game {
  private void createPieces() {
   List<Integer> evenX = Arrays.asList(0, 2, 4, 6);
   List<Integer> oddX = Arrays.asList(1, 3, 5, 7);
-  List<Integer> whiteRows = Arrays.asList(0, 1, 2);
-  List<Integer> redRows = Arrays.asList(5, 6, 7);
+  List<Integer> redRows = Arrays.asList(0, 1, 2);
+  List<Integer> whiteRows = Arrays.asList(5, 6, 7);
 
   BiConsumer<Integer, Integer> placeOddOrEven = (y, color) -> {
    if (y % 2 == 0) {
@@ -43,8 +43,6 @@ public class Game {
   * @param destination Destination square
   */
  public void movePiece(Square origin, Square destination) {
-  Piece piece = origin.getPiece();
-
-  piece.move(destination);
+  origin.getPiece().move(destination);
  }
 }

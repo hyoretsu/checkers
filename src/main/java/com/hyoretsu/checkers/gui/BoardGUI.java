@@ -10,7 +10,7 @@ import com.hyoretsu.checkers.Square;
 /** GUI of the game board */
 public class BoardGUI extends JPanel {
  private Board board;
- private SquareGUI[][] squares;
+ private SquareGUI[][] squares = new SquareGUI[8][8];
 
  public BoardGUI(Window window) {
   this.board = window.getGame().getBoard();
@@ -21,9 +21,8 @@ public class BoardGUI extends JPanel {
 
  /** Fills the board with 64 squares */
  private void createSquares(Window window) {
-  this.squares = new SquareGUI[8][8];
   // Up-down
-  for (Integer y = 7; y >= 0; y--) {
+  for (Integer y = 0; y < 8; y++) {
    // Left-right
    for (Integer x = 0; x < 8; x++) {
     Color tileColor = this.defineColor(x, y);

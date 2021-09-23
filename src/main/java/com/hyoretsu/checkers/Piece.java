@@ -5,26 +5,26 @@ public class Piece {
  public static final int WHITE = 0;
  public static final int RED = 1;
 
- private Boolean isKing = false;
  private Square square;
- private Integer type;
+ private Integer color;
+ private Boolean isKing = false;
 
- public Piece(Square square, Integer type) {
+ public Piece(Square square, Integer color) {
   this.square = square;
-  this.type = type;
+  this.color = color;
   square.placePiece(this);
  }
 
- public Piece(Square square, Integer type, Boolean isKing) {
+ public Piece(Square square, Integer color, Boolean isKing) {
   this.isKing = isKing;
   this.square = square;
-  this.type = type;
+  this.color = color;
   square.placePiece(this);
  }
 
- /** @return type of the piece. */
+ /** @return color of the piece. */
  public Integer getColor() {
-  return this.type;
+  return this.color;
  }
 
  public Boolean isKing() {
