@@ -12,9 +12,11 @@ import com.hyoretsu.checkers.Game;
 /** Main window of the game */
 public class Window extends JFrame {
  private Game game = new Game();
- private boolean firstClick = true;
- private SquareGUI originSquare = null;
  private BoardGUI boardGUI = new BoardGUI(this);
+ private SquareGUI originSquare = null;
+ private Boolean firstClick = true;
+ /** Same value as piece color, 0 for White or 1 for Red */
+ private Integer turn = 0;
 
  public Window() {
   this.initComponents();
@@ -34,18 +36,21 @@ public class Window extends JFrame {
   * @param clickedSquare Square the player just clicked.
   */
  public void respond(SquareGUI clickedSquare) {
-  if (this.firstClick) {
+  if (this.firstClick) { // Starting a new movement
    if (clickedSquare.hasPiece()) {
-    this.originSquare = clickedSquare;
-    this.originSquare.select();
-    this.firstClick = false;
-   } else { // Didn't click on a valid square
-    JOptionPane.showMessageDialog(this, "Clique em uma peça.");
+    if (clickedSquare.getPiece().getColor() == this.turn) { // If the piece's in the current turn
+     this.originSquare = clickedSquare;
+     this.originSquare.select();
+     this.firstClick = false;
+    } else {
+     JOptionPane.showMessageDialog(this, "Esta não é a sua rodada.");
+    }
    }
-  } else {
+  } else { // Selecting a square to move to
    this.game.movePiece(this.originSquare.getSquare(), clickedSquare.getSquare());
    this.originSquare.deselect();
    this.firstClick = true;
+   this.turn = this.turn == 0 ? 1 : 0;
    this.boardGUI.update();
   }
  }
