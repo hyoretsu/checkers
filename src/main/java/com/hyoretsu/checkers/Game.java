@@ -35,14 +35,4 @@ public class Game {
  public Board getBoard() {
   return this.board;
  }
-
- /**
-  * Moves a piece from origin to the given destination.
-  *
-  * @param origin      Origin square
-  * @param destination Destination square
-  */
- public void movePiece(Square origin, Square destination) {
-  origin.getPiece().move(destination);
- }
 }

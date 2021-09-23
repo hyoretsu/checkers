@@ -1,5 +1,8 @@
 package com.hyoretsu.checkers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /** Game board (with 64 positions) */
 public class Board {
  private Square[][] squares = new Square[8][8];
@@ -23,27 +26,31 @@ public class Board {
   return this.squares[x][y];
  }
 
- /** Checks if the given move is valid. */
- public Boolean validMove(Square origin, Square destination) {
-  if (destination.hasPiece()) {
-   return false;
+ /** Scans the board for possible moves from the given square. */
+ public List<Square> validMoves(Square origin) {
+  List<Square> possibleMoves = new ArrayList<>();
+
+  for (Square[] line : this.squares) {
+   for (Square square : line) {
+    // Within 1 square
+    Boolean validX = Math.abs(origin.getX() - square.getX()) == 1;
+
+    // Moving forward
+    Boolean validY;
+    if (origin.getPiece().getColor() == Piece.WHITE) {
+     validY = square.getY() == origin.getY() - 1;
+    } else {
+     validY = square.getY() == origin.getY() + 1;
+    }
+
+    if (square.hasPiece() || !validX || !validY) {
+     continue;
+    }
+
+    possibleMoves.add(square);
+   }
   }
 
-  // Within 1 square
-  Boolean validX = Math.abs(origin.getX() - destination.getX()) == 1;
-
-  // Moving forward
-  Boolean validY;
-  if (origin.getPiece().getColor() == Piece.WHITE) {
-   validY = destination.getY() == origin.getY() - 1;
-  } else {
-   validY = destination.getY() == origin.getY() + 1;
-  }
-
-  if (!validX || !validY) {
-   return false;
-  }
-
-  return true;
+  return possibleMoves;
  }
 }

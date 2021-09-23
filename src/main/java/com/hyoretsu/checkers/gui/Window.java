@@ -14,6 +14,7 @@ import com.hyoretsu.checkers.Square;
 public class Window extends JFrame {
  private Game game = new Game();
  private BoardGUI boardGUI = new BoardGUI(this);
+ private List<Square> validMoves;
  private SquareGUI originSquare = null;
  private Boolean firstClick = true;
  /** Same value as piece color, 0 for White or 1 for Red */
@@ -41,7 +42,10 @@ public class Window extends JFrame {
    if (clickedSquare.hasPiece()) {
     if (clickedSquare.getPiece().getColor() == this.turn) { // If the piece's in the current turn
      this.originSquare = clickedSquare;
+
+     this.validMoves = this.game.getBoard().validMoves(clickedSquare.getSquare());
      this.originSquare.select();
+
      this.firstClick = false;
     } else {
      JOptionPane.showMessageDialog(this, "Esta não é a sua rodada.");
@@ -51,8 +55,8 @@ public class Window extends JFrame {
    Square origin = this.originSquare.getSquare();
    Square destination = clickedSquare.getSquare();
 
-   if (!destination.hasPiece() && game.getBoard().validMove(origin, destination)) {
-    this.game.movePiece(origin, destination);
+   if (validMoves.contains(destination)) {
+    origin.getPiece().move(destination);
     this.originSquare.deselect();
     this.firstClick = true;
     this.turn = this.turn == 0 ? 1 : 0;
