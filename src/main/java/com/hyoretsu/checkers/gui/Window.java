@@ -44,7 +44,8 @@ public class Window extends JFrame {
      this.originSquare = clickedSquare;
 
      this.validMoves = this.game.getBoard().validMoves(clickedSquare.getSquare());
-     this.originSquare.select();
+     // Highlight all valid moves
+     this.validMoves.forEach(square -> this.boardGUI.getSquares()[square.getX()][square.getY()].select());
 
      this.firstClick = false;
     } else {
