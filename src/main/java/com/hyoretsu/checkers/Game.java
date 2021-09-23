@@ -39,15 +39,12 @@ public class Game {
  /**
   * Moves a piece from origin to the given destination.
   *
-  * @param originX      Origin square's line
-  * @param originY      Origin square's column
-  * @param destinationX Destination square's line
-  * @param destinationY Destination square's column
+  * @param origin      Origin square
+  * @param destination Destination square
   */
- public void movePiece(Integer originX, Integer originY, Integer destinationX, Integer destinationY) {
-  Square origin = this.board.getSquare(originX, originY);
-  Square destination = this.board.getSquare(destinationX, destinationY);
+ public void movePiece(Square origin, Square destination) {
   Piece piece = origin.getPiece();
+
   piece.move(destination);
  }
 }

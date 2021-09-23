@@ -14,15 +14,18 @@ public class Window extends JFrame {
  private Game game = new Game();
  private boolean firstClick = true;
  private SquareGUI originSquare = null;
- private SquareGUI destinationSquare = null;
  private BoardGUI boardGUI = new BoardGUI(this);
 
  public Window() {
   this.initComponents();
-  this.update();
+  this.boardGUI.update();
 
   super.setVisible(true);
   super.pack();
+ }
+
+ public Game getGame() {
+  return this.game;
  }
 
  /**
@@ -40,17 +43,11 @@ public class Window extends JFrame {
     JOptionPane.showMessageDialog(this, "Clique em uma peça.");
    }
   } else {
-   this.destinationSquare = clickedSquare;
-   this.game.movePiece(this.originSquare.getPosX(), this.originSquare.getPosY(), this.destinationSquare.getPosX(),
-     this.destinationSquare.getPosY());
+   this.game.movePiece(this.originSquare.getSquare(), clickedSquare.getSquare());
    this.originSquare.deselect();
    this.firstClick = true;
-   this.update();
+   this.boardGUI.update();
   }
- }
-
- private void update() {
-  this.boardGUI.update(this.game);
  }
 
  private JPanel columnsPanel = new JPanel();

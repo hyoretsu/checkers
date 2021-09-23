@@ -16,6 +16,14 @@ public class Square {
   return this.piece;
  }
 
+ public Integer getX() {
+  return this.x;
+ }
+
+ public Integer getY() {
+  return this.y;
+ }
+
  /** @return true if there's a piece in this square, otherwise false. */
  public boolean hasPiece() {
   return this.piece != null;

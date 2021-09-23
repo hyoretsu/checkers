@@ -4,30 +4,30 @@ import java.awt.Color;
 import javax.swing.JPanel;
 
 import com.hyoretsu.checkers.Board;
-import com.hyoretsu.checkers.Game;
 import com.hyoretsu.checkers.Piece;
 import com.hyoretsu.checkers.Square;
 
 /** GUI of the game board */
 public class BoardGUI extends JPanel {
- private Window window;
+ private Board board;
  private SquareGUI[][] squares;
 
  public BoardGUI(Window window) {
-  this.window = window;
+  this.board = window.getGame().getBoard();
+
   setLayout(new java.awt.GridLayout(8, 8));
-  this.createSquares();
+  this.createSquares(window);
  }
 
  /** Fills the board with 64 squares */
- private void createSquares() {
+ private void createSquares(Window window) {
   this.squares = new SquareGUI[8][8];
   // Up-down
   for (Integer y = 7; y >= 0; y--) {
    // Left-right
    for (Integer x = 0; x < 8; x++) {
-    Color color = this.defineColor(x, y);
-    SquareGUI square = new SquareGUI(x, y, color, this);
+    Color tileColor = this.defineColor(x, y);
+    SquareGUI square = new SquareGUI(this.board.getSquare(x, y), tileColor, window);
     this.squares[x][y] = square;
     add(square);
    }
@@ -50,17 +50,12 @@ public class BoardGUI extends JPanel {
   }
  }
 
- public Window getWindow() {
-  return this.window;
- }
-
- public void update(Game game) {
+ public void update() {
   for (Integer x = 0; x < 8; x++) {
    for (Integer y = 0; y < 8; y++) {
     SquareGUI squareGUI = this.squares[x][y];
 
-    Board board = game.getBoard();
-    Square square = board.getSquare(x, y);
+    Square square = this.board.getSquare(x, y);
     if (square.hasPiece()) {
      Piece piece = square.getPiece();
 
