@@ -64,19 +64,18 @@ public class BoardGUI extends JPanel {
     if (square.hasPiece()) {
      Piece piece = square.getPiece();
 
-     switch (piece.getType()) {
-      case Piece.WHITE:
-       squareGUI.draw(squareGUI.WHITE_MAN);
-       break;
-      case Piece.WHITE_KING:
+     if (piece.getColor() == Piece.WHITE) {
+      if (piece.isKing()) {
        squareGUI.draw(squareGUI.WHITE_KING);
-       break;
-      case Piece.RED:
-       squareGUI.draw(squareGUI.RED_MAN);
-       break;
-      case Piece.RED_KING:
+      } else {
+       squareGUI.draw(squareGUI.WHITE_MAN);
+      }
+     } else {
+      if (piece.isKing()) {
        squareGUI.draw(squareGUI.RED_KING);
-       break;
+      } else {
+       squareGUI.draw(squareGUI.RED_MAN);
+      }
      }
     } else {
      squareGUI.removePiece();
