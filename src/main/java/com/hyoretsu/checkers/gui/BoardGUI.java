@@ -49,6 +49,10 @@ public class BoardGUI extends JPanel {
   }
  }
 
+ public SquareGUI[][] getSquares() {
+  return this.squares;
+ }
+
  public void update() {
   for (Integer x = 0; x < 8; x++) {
    for (Integer y = 0; y < 8; y++) {
@@ -74,6 +78,8 @@ public class BoardGUI extends JPanel {
     } else {
      squareGUI.removePiece();
     }
+
+    squareGUI.deselect();
    }
   }
  }
