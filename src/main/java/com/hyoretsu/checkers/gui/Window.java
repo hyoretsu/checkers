@@ -45,7 +45,8 @@ public class Window extends JFrame {
      this.originSquare = clickedSquare;
 
      this.validMoves = this.game.getBoard().validMoves(clickedSquare.getSquare());
-     this.originSquare.select();
+     // Highlight all valid moves
+     this.validMoves.forEach(square -> this.boardGUI.getSquares()[square.getX()][square.getY()].select());
 
      this.firstClick = false;
     } else {
@@ -58,7 +59,6 @@ public class Window extends JFrame {
 
    if (validMoves.contains(destination)) {
     origin.getPiece().move(destination);
-    this.originSquare.deselect();
     this.firstClick = true;
     this.turn = this.turn == 0 ? 1 : 0;
     this.boardGUI.update();
