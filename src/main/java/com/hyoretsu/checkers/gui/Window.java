@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.hyoretsu.checkers.Game;
+import com.hyoretsu.checkers.Square;
 
 /** Main window of the game */
 public class Window extends JFrame {
@@ -48,11 +49,16 @@ public class Window extends JFrame {
     }
    }
   } else { // Selecting a square to move to
-   this.game.movePiece(this.originSquare.getSquare(), clickedSquare.getSquare());
-   this.originSquare.deselect();
-   this.firstClick = true;
-   this.turn = this.turn == 0 ? 1 : 0;
-   this.boardGUI.update();
+   Square origin = this.originSquare.getSquare();
+   Square destination = clickedSquare.getSquare();
+
+   if (!destination.hasPiece() && game.getBoard().validMove(origin, destination)) {
+    this.game.movePiece(origin, destination);
+    this.originSquare.deselect();
+    this.firstClick = true;
+    this.turn = this.turn == 0 ? 1 : 0;
+    this.boardGUI.update();
+   }
   }
  }
 
