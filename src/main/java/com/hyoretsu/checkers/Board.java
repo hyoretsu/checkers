@@ -44,17 +44,18 @@ public class Board {
     }
 
     if (square.hasPiece()) {
-     if (square.getPiece().getColor() != origin.getPiece().getColor()) {
+     if (square.getPiece().getColor() != origin.getPiece().getColor()) { // Enemy piece
       Integer x = square.getX() - (origin.getX() - square.getX());
       Integer y = square.getY() - (origin.getY() - square.getY());
 
-      if ((x >= 0 && x < 8) && (y >= 0 && y < 8)) {
+      if ((x >= 0 && x < 8) && (y >= 0 && y < 8)) { // Within the board
        Square destination = this.squares[x][y];
 
        if (destination.hasPiece()) {
         continue;
        }
 
+       origin.getPiece().addCaptureTarget(square);
        possibleMoves.add(destination);
       }
      }
