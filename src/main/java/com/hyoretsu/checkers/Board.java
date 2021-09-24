@@ -29,21 +29,36 @@ public class Board {
  /** Scans the board for possible moves from the given square. */
  public List<Square> validMoves(Square origin) {
   List<Square> possibleMoves = new ArrayList<>();
+  // You need this in order to take care of the inverted Y directions
+  Integer colorOffset = origin.getPiece().getColor() == Piece.WHITE ? -1 : 1;
 
   for (Square[] line : this.squares) {
    for (Square square : line) {
     // Within 1 square
     Boolean validX = Math.abs(origin.getX() - square.getX()) == 1;
-
     // Moving forward
-    Boolean validY;
-    if (origin.getPiece().getColor() == Piece.WHITE) {
-     validY = square.getY() == origin.getY() - 1;
-    } else {
-     validY = square.getY() == origin.getY() + 1;
+    Boolean validY = square.getY() == origin.getY() + colorOffset;
+
+    if (!validX || !validY) {
+     continue;
     }
 
-    if (square.hasPiece() || !validX || !validY) {
+    if (square.hasPiece()) {
+     if (square.getPiece().getColor() != origin.getPiece().getColor()) {
+      Integer x = square.getX() - (origin.getX() - square.getX());
+      Integer y = square.getY() - (origin.getY() - square.getY());
+
+      if ((x >= 0 && x < 8) && (y >= 0 && y < 8)) {
+       Square destination = this.squares[x][y];
+
+       if (destination.hasPiece()) {
+        continue;
+       }
+
+       possibleMoves.add(destination);
+      }
+     }
+
      continue;
     }
 
