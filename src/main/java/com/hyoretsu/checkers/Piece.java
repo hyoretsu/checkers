@@ -45,6 +45,11 @@ public class Piece {
   this.square.removePiece();
   destination.placePiece(this);
 
+  // King transformation
+  if (this.color == Piece.WHITE && destination.getY() == 0 || this.color == Piece.RED && destination.getY() == 7) {
+   this.isKing = true;
+  }
+
   Integer deltaX = destination.getX() - this.square.getX();
   Integer deltaY = destination.getY() - this.square.getY();
 
