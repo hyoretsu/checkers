@@ -45,8 +45,11 @@ public class Piece {
   this.square.removePiece();
   destination.placePiece(this);
 
-  // Capturing another piece
-  if (this.captureTarget != null) {
+  Integer deltaX = destination.getX() - this.square.getX();
+  Integer deltaY = destination.getY() - this.square.getY();
+
+  // Moving more than 1 square (capture)
+  if (Math.abs(deltaX) > 1 || Math.abs(deltaY) > 1) {
    this.captureTarget.removePiece();
    this.captureTarget = null;
   }
