@@ -40,10 +40,16 @@ public class Window extends JFrame {
  public void respond(SquareGUI clickedSquare) {
   if (this.firstClick) { // Starting a new movement
    if (clickedSquare.hasPiece()) {
+    this.validMoves = this.game.getBoard().validMoves(clickedSquare.getSquare());
+
+    if (this.validMoves.size() == 0) {
+     this.firstClick = true;
+     return;
+    }
+
     if (clickedSquare.getPiece().getColor() == this.turn) { // If the piece's in the current turn
      this.originSquare = clickedSquare;
 
-     this.validMoves = this.game.getBoard().validMoves(clickedSquare.getSquare());
      // Highlight all valid moves
      this.validMoves.forEach(square -> this.boardGUI.getSquares()[square.getX()][square.getY()].select());
 
