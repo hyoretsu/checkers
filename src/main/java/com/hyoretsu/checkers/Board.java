@@ -37,11 +37,7 @@ public class Board {
     // Within 1 square
     Boolean validX = Math.abs(origin.getX() - square.getX()) == 1;
     // Moving forward
-    Boolean validY = square.getY() == origin.getY() + colorOffset;
-
-    if (!validX || !validY) {
-     continue;
-    }
+    Integer validY = origin.getY() + colorOffset;
 
     if (square.hasPiece()) {
      if (square.getPiece().getColor() != origin.getPiece().getColor()) { // Enemy piece
@@ -51,7 +47,7 @@ public class Board {
       if ((x >= 0 && x < 8) && (y >= 0 && y < 8)) { // Within the board
        Square destination = this.squares[x][y];
 
-       if (destination.hasPiece()) {
+       if (destination.hasPiece() || !validX || (validY + 1 == square.getY())) {
         continue;
        }
 
@@ -60,6 +56,10 @@ public class Board {
       }
      }
 
+     continue;
+    }
+
+    if (!validX || validY != square.getY()) {
      continue;
     }
 
