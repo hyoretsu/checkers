@@ -25,6 +25,8 @@ public class Piece {
 
  public void addCaptureTarget(Square target) {
   this.captureTarget = target;
+
+  return;
  }
 
  /** @return color of the piece. */
@@ -60,5 +62,6 @@ public class Piece {
   }
 
   this.square = destination;
+  return;
  }
 }

@@ -38,16 +38,21 @@ public class Window extends JFrame {
   * @param clickedSquare Square the player just clicked.
   */
  public void respond(SquareGUI clickedSquare) {
-  if (this.firstClick) { // Starting a new movement
+  // Starting a new movement
+  if (this.firstClick) {
+   // Clicked square isn't empty
    if (clickedSquare.hasPiece()) {
     this.validMoves = this.game.getBoard().validMoves(clickedSquare.getSquare());
 
+    // There are no valid moves
     if (this.validMoves.size() == 0) {
+     // Don't start a movement
      this.firstClick = true;
      return;
     }
 
-    if (clickedSquare.getPiece().getColor() == this.turn) { // If the piece's in the current turn
+    // If the piece is in the current turn
+    if (clickedSquare.getPiece().getColor() == this.turn) {
      this.originSquare = clickedSquare;
 
      // Highlight all valid moves
@@ -62,14 +67,20 @@ public class Window extends JFrame {
    Square origin = this.originSquare.getSquare();
    Square destination = clickedSquare.getSquare();
 
+   // Move is valid
    if (validMoves.contains(destination)) {
+    // Move piece
     origin.getPiece().move(destination);
     this.originSquare.deselect();
+    // Reset click logic
     this.firstClick = true;
+    // Switch turn
     this.turn = this.turn == 0 ? 1 : 0;
     this.boardGUI.update();
    }
   }
+
+  return;
  }
 
  private JPanel columnsPanel = new JPanel();
@@ -91,6 +102,7 @@ public class Window extends JFrame {
  private JLabel hLabel7 = new JLabel();
  private JLabel hLabel8 = new JLabel();
 
+ // JPanel (UI) stuff
  private void initComponents() {
   this.setTitle("Checkers");
 

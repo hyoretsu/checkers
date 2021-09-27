@@ -10,8 +10,7 @@ public class Board {
  public Board() {
   for (Integer x = 0; x < 8; x++) {
    for (Integer y = 0; y < 8; y++) {
-    Square square = new Square(x, y);
-    this.squares[x][y] = square;
+    this.squares[x][y] = new Square(x, y);
    }
   }
  }
@@ -29,24 +28,25 @@ public class Board {
  /** Scans the board for possible moves from the given square. */
  public List<Square> validMoves(Square origin) {
   List<Square> possibleMoves = new ArrayList<>();
-  // You need this in order to take care of the inverted Y directions
-  Integer colorOffset = origin.getPiece().getColor() == Piece.WHITE ? -1 : 1;
+  Integer colorOffset = origin.getPiece().getColor() == Piece.WHITE ? -1 : 1; // Takes care of the inverted Y directions
 
   for (Square[] line : this.squares) {
    for (Square square : line) {
-    // Within 1 square
-    Boolean validX = Math.abs(origin.getX() - square.getX()) == 1;
-    // Moving forward
-    Integer validY = origin.getY() + colorOffset;
+    Boolean validX = Math.abs(origin.getX() - square.getX()) == 1; // Within 1 square
+    Integer validY = origin.getY() + colorOffset; // Moving forward
 
+    // Capturing logic
     if (square.hasPiece()) {
-     if (square.getPiece().getColor() != origin.getPiece().getColor()) { // Enemy piece
+     // Is an enemy piece
+     if (square.getPiece().getColor() != origin.getPiece().getColor()) {
       Integer x = square.getX() - (origin.getX() - square.getX());
       Integer y = square.getY() - (origin.getY() - square.getY());
 
-      if ((x >= 0 && x < 8) && (y >= 0 && y < 8)) { // Within the board
+      // Within the board
+      if ((x >= 0 && x < 8) && (y >= 0 && y < 8)) {
        Square destination = this.squares[x][y];
 
+       // Can't move or move isn't valid
        if (destination.hasPiece() || !validX || (validY + 1 == square.getY())) {
         continue;
        }
@@ -55,10 +55,11 @@ public class Board {
        possibleMoves.add(destination);
       }
      }
-
+     // You cannot capture friendly pieces
      continue;
     }
 
+    // Move isn't valid
     if (!validX || validY != square.getY()) {
      continue;
     }

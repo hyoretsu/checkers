@@ -32,10 +32,14 @@ public class Square {
  /** @param piece piece to be slotted in this square */
  public void placePiece(Piece piece) {
   this.piece = piece;
+
+  return;
  }
 
  /** Removes the square's current piece */
  public void removePiece() {
   this.piece = null;
+
+  return;
  }
 }

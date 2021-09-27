@@ -62,25 +62,28 @@ public class BoardGUI extends JPanel {
     if (square.hasPiece()) {
      Piece piece = square.getPiece();
 
+     // Decide piece's icon
      if (piece.getColor() == Piece.WHITE) {
       if (piece.isKing()) {
-       squareGUI.draw(squareGUI.WHITE_KING);
+       squareGUI.draw(SquareGUI.WHITE_KING);
       } else {
-       squareGUI.draw(squareGUI.WHITE_MAN);
+       squareGUI.draw(SquareGUI.WHITE_MAN);
       }
      } else {
       if (piece.isKing()) {
-       squareGUI.draw(squareGUI.RED_KING);
+       squareGUI.draw(SquareGUI.RED_KING);
       } else {
-       squareGUI.draw(squareGUI.RED_MAN);
+       squareGUI.draw(SquareGUI.RED_MAN);
       }
      }
-    } else {
+    } else { // Piece's captured in the last round
      squareGUI.removePiece();
     }
 
     squareGUI.deselect();
    }
   }
+
+  return;
  }
 }
