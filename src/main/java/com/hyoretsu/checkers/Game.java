@@ -9,6 +9,8 @@ public class Game {
  private Board board = new Board();
 
  public Game() {
+  new Hooks(this.board);
+
   this.createPieces();
  }
 
@@ -29,10 +31,5 @@ public class Game {
 
   whiteRows.forEach(y -> placeOddOrEven.accept(y, Piece.WHITE));
   redRows.forEach(y -> placeOddOrEven.accept(y, Piece.RED));
- }
-
- /** @return current board */
- public Board getBoard() {
-  return this.board;
  }
 }

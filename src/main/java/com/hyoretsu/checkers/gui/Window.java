@@ -8,11 +8,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.hyoretsu.checkers.Game;
+import com.hyoretsu.checkers.Hooks;
 import com.hyoretsu.checkers.Square;
 
 /** Main window of the game */
 public class Window extends JFrame {
- private Game game = new Game();
  private BoardGUI boardGUI = new BoardGUI(this);
  private List<Square> validMoves;
  private SquareGUI originSquare = null;
@@ -21,15 +21,12 @@ public class Window extends JFrame {
  private Integer turn = 0;
 
  public Window() {
+  new Game();
   this.initComponents();
   this.boardGUI.update();
 
   super.setVisible(true);
   super.pack();
- }
-
- public Game getGame() {
-  return this.game;
  }
 
  /**
@@ -41,8 +38,8 @@ public class Window extends JFrame {
   // Starting a new movement
   if (this.firstClick) {
    // Clicked square isn't empty
-   if (clickedSquare.hasPiece()) {
-    this.validMoves = this.game.getBoard().validMoves(clickedSquare.getSquare());
+   if (Hooks.hasPiece(clickedSquare)) {
+    this.validMoves = Hooks.validMoves(clickedSquare);
 
     // There are no valid moves
     if (this.validMoves.size() == 0) {
@@ -52,9 +49,8 @@ public class Window extends JFrame {
     }
 
     // If the piece is in the current turn
-    if (clickedSquare.getPiece().getColor() == this.turn) {
+    if (Hooks.getPiece(clickedSquare).getColor() == this.turn) {
      this.originSquare = clickedSquare;
-
      // Highlight all valid moves
      this.validMoves.forEach(square -> this.boardGUI.getSquares()[square.getX()][square.getY()].select());
 
@@ -64,13 +60,11 @@ public class Window extends JFrame {
     }
    }
   } else { // Selecting a square to move to
-   Square origin = this.originSquare.getSquare();
-   Square destination = clickedSquare.getSquare();
+   Square destination = Hooks.getSquare(clickedSquare);
 
    // Move is valid
    if (validMoves.contains(destination)) {
-    // Move piece
-    origin.getPiece().move(destination);
+    Hooks.getPiece(this.originSquare).move(destination);
     this.originSquare.deselect();
     // Reset click logic
     this.firstClick = true;
