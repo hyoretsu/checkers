@@ -23,9 +23,9 @@ public class Game {
 
   BiConsumer<Integer, Integer> placeOddOrEven = (y, color) -> {
    if (y % 2 == 0) {
-    evenX.forEach(x -> new Piece(this.board.getSquare(x, y), color));
-   } else {
     oddX.forEach(x -> new Piece(this.board.getSquare(x, y), color));
+   } else {
+    evenX.forEach(x -> new Piece(this.board.getSquare(x, y), color));
    }
   };
 

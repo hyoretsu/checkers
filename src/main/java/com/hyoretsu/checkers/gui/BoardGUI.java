@@ -32,15 +32,15 @@ public class BoardGUI extends JPanel {
  private Color defineColor(Integer x, Integer y) {
   if (x % 2 == 0) { // Even line
    if (y % 2 == 0) { // Even column
-    return SquareGUI.COLOR_DARK;
-   } else { // Odd column
     return SquareGUI.COLOR_LIGHT;
+   } else { // Odd column
+    return SquareGUI.COLOR_DARK;
    }
   } else { // Odd line
    if (y % 2 == 0) { // Even column
-    return SquareGUI.COLOR_LIGHT;
-   } else { // Odd column
     return SquareGUI.COLOR_DARK;
+   } else { // Odd column
+    return SquareGUI.COLOR_LIGHT;
    }
   }
  }
