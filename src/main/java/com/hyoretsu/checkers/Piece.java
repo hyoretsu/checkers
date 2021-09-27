@@ -25,6 +25,8 @@ public class Piece {
 
  public void addCaptureTarget(Square target) {
   this.captureTarget = target;
+
+  return;
  }
 
  /** @return color of the piece. */
@@ -46,12 +48,13 @@ public class Piece {
   destination.placePiece(this);
 
   // King transformation
-  if (this.color == Piece.WHITE && destination.getY() == 0 || this.color == Piece.RED && destination.getY() == 7) {
+  if (this.color == Piece.WHITE && destination.getPosY() == 0
+    || this.color == Piece.RED && destination.getPosY() == 7) {
    this.isKing = true;
   }
 
-  Integer deltaX = destination.getX() - this.square.getX();
-  Integer deltaY = destination.getY() - this.square.getY();
+  Integer deltaX = destination.getPosX() - this.square.getPosX();
+  Integer deltaY = destination.getPosY() - this.square.getPosY();
 
   // Moving more than 1 square (capture)
   if (Math.abs(deltaX) > 1 || Math.abs(deltaY) > 1) {
@@ -60,5 +63,6 @@ public class Piece {
   }
 
   this.square = destination;
+  return;
  }
 }

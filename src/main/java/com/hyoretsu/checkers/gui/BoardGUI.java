@@ -22,15 +22,17 @@ public class BoardGUI extends JPanel {
  /** Fills the board with 64 squares */
  private void createSquares(Window window) {
   // Up-down
-  for (Integer y = 0; y < 8; y++) {
+  for (int y = 0; y < 8; y++) {
    // Left-right
-   for (Integer x = 0; x < 8; x++) {
+   for (int x = 0; x < 8; x++) {
     Color tileColor = this.defineColor(x, y);
     SquareGUI square = new SquareGUI(this.board.getSquare(x, y), tileColor, window);
     this.squares[x][y] = square;
     add(square);
    }
   }
+
+  return;
  }
 
  private Color defineColor(Integer x, Integer y) {
@@ -54,33 +56,36 @@ public class BoardGUI extends JPanel {
  }
 
  public void update() {
-  for (Integer x = 0; x < 8; x++) {
-   for (Integer y = 0; y < 8; y++) {
+  for (int x = 0; x < 8; x++) {
+   for (int y = 0; y < 8; y++) {
     SquareGUI squareGUI = this.squares[x][y];
 
     Square square = this.board.getSquare(x, y);
     if (square.hasPiece()) {
      Piece piece = square.getPiece();
 
+     // Decide piece's icon
      if (piece.getColor() == Piece.WHITE) {
       if (piece.isKing()) {
-       squareGUI.draw(squareGUI.WHITE_KING);
+       squareGUI.draw(SquareGUI.WHITE_KING);
       } else {
-       squareGUI.draw(squareGUI.WHITE_MAN);
+       squareGUI.draw(SquareGUI.WHITE_MAN);
       }
      } else {
       if (piece.isKing()) {
-       squareGUI.draw(squareGUI.RED_KING);
+       squareGUI.draw(SquareGUI.RED_KING);
       } else {
-       squareGUI.draw(squareGUI.RED_MAN);
+       squareGUI.draw(SquareGUI.RED_MAN);
       }
      }
-    } else {
+    } else { // Piece's captured in the last round
      squareGUI.removePiece();
     }
 
     squareGUI.deselect();
    }
   }
+
+  return;
  }
 }

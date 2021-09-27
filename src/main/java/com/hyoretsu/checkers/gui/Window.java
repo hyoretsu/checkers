@@ -39,37 +39,50 @@ public class Window extends JFrame {
   * @param clickedSquare Square the player just clicked.
   */
  public void respond(SquareGUI clickedSquare) {
-  if (this.firstClick) { // Starting a new movement
-   if (clickedSquare.hasPiece()) {
-    this.validMoves = this.game.getBoard().validMoves(clickedSquare.getSquare());
-
-    if (this.validMoves.size() == 0) {
-     this.firstClick = true;
-     return;
-    }
-
-    if (clickedSquare.getPiece().getColor() == this.turn) { // If the piece's in the current turn
-     this.originSquare = clickedSquare;
-
-     // Highlight all valid moves
-     this.validMoves.forEach(square -> this.boardGUI.getSquares()[square.getX()][square.getY()].select());
-
-     this.firstClick = false;
-    } else {
-     JOptionPane.showMessageDialog(this, "It's currently not your turn.");
-    }
+  // Starting a new movement
+  if (this.firstClick) {
+   // Clicked square is empty
+   if (!clickedSquare.hasPiece()) {
+    return;
    }
+
+   // Piece isn't part of the turn
+   if (clickedSquare.getPiece().getColor() != this.turn) {
+    JOptionPane.showMessageDialog(this, "It's currently not your turn.");
+    return;
+   }
+
+   this.validMoves = this.game.getBoard().validMoves(clickedSquare.getSquare());
+
+   // There are no valid moves
+   if (this.validMoves.size() == 0) {
+    // Don't start a movement
+    this.firstClick = true;
+    return;
+   }
+
+   // Highlight all valid moves
+   this.validMoves.forEach(square -> this.boardGUI.getSquares()[square.getPosX()][square.getPosY()].select());
+   this.originSquare = clickedSquare;
+   this.firstClick = false;
   } else { // Selecting a square to move to
    Square origin = this.originSquare.getSquare();
    Square destination = clickedSquare.getSquare();
 
-   if (validMoves.contains(destination)) {
-    origin.getPiece().move(destination);
-    this.firstClick = true;
-    this.turn = this.turn == 0 ? 1 : 0;
-    this.boardGUI.update();
+   // Move isn't valid
+   if (!validMoves.contains(destination)) {
+    return;
    }
+
+   origin.getPiece().move(destination);
+   // Reset click logic
+   this.firstClick = true;
+   // Switch turn
+   this.turn = this.turn == 0 ? 1 : 0;
+   this.boardGUI.update();
   }
+
+  return;
  }
 
  private JPanel columnsPanel = new JPanel();
@@ -91,6 +104,7 @@ public class Window extends JFrame {
  private JLabel hLabel7 = new JLabel();
  private JLabel hLabel8 = new JLabel();
 
+ // JPanel (UI) stuff
  private void initComponents() {
   this.setTitle("Checkers");
 
@@ -106,7 +120,7 @@ public class Window extends JFrame {
    label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
   });
 
-  for (Integer i = 0; i < 8; i++) {
+  for (int i = 0; i < 8; i++) {
    JLabel lineLabel = labels.get(i);
    JLabel columnLabel = labels.get(i + 8);
 

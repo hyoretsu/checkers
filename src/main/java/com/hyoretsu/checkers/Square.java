@@ -16,26 +16,30 @@ public class Square {
   return this.piece;
  }
 
- public Integer getX() {
+ public Integer getPosX() {
   return this.x;
  }
 
- public Integer getY() {
+ public Integer getPosY() {
   return this.y;
  }
 
  /** @return true if there's a piece in this square, otherwise false. */
- public boolean hasPiece() {
+ public Boolean hasPiece() {
   return this.piece != null;
  }
 
  /** @param piece piece to be slotted in this square */
  public void placePiece(Piece piece) {
   this.piece = piece;
+
+  return;
  }
 
  /** Removes the square's current piece */
  public void removePiece() {
   this.piece = null;
+
+  return;
  }
 }

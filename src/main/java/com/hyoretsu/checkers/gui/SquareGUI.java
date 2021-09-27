@@ -19,14 +19,10 @@ public class SquareGUI extends JButton {
  public static final Color COLOR_DARK = new Color(65, 41, 1);
  private static final Color COLOR_SELECTED = new Color(0, 1, 0, 0.4f);
  // Icons
- public final Icon RED_MAN = new ImageIcon("assets/red_man.png");
- public final Icon RED_KING = new ImageIcon("assets/red_king.png");
- public final Icon WHITE_MAN = new ImageIcon("assets/white_man.png");
- public final Icon WHITE_KING = new ImageIcon("assets/white_king.png");
- // Piece colors index
- public static final Integer NO_PIECE = -1;
- public static final Integer WHITE_PIECE = 0;
- public static final Integer RED_PIECE = 1;
+ public static final Icon RED_MAN = new ImageIcon("assets/red_man.png");
+ public static final Icon RED_KING = new ImageIcon("assets/red_king.png");
+ public static final Icon WHITE_MAN = new ImageIcon("assets/white_man.png");
+ public static final Icon WHITE_KING = new ImageIcon("assets/white_king.png");
 
  private Integer x;
  private Integer y;
@@ -35,45 +31,39 @@ public class SquareGUI extends JButton {
 
  public SquareGUI(Square square, Color tileColor, Window window) {
   this.square = square;
-  this.x = square.getX();
-  this.y = square.getY();
+  this.x = square.getPosX();
+  this.y = square.getPosY();
   this.color = tileColor;
 
   // Layout and color
-  setBackground(color);
+  setBackground(this.color);
   setContentAreaFilled(false);
-  setBorder(BorderFactory.createLineBorder(color, 1));
+  setBorder(BorderFactory.createLineBorder(this.color, 1));
 
   addActionListener(new ActionListener() {
    @Override
    public void actionPerformed(ActionEvent e) {
     window.respond((SquareGUI) e.getSource());
+
+    return;
    }
   });
  }
 
  public void deselect() {
   setBackground(this.color);
+
+  return;
  }
 
  public void draw(Icon pieceType) {
   setIcon(pieceType);
+
+  return;
  }
 
  public Piece getPiece() {
   return this.square.getPiece();
- }
-
- public Integer getPieceColor() {
-  Icon icon = getIcon();
-
-  if (icon == WHITE_MAN || icon == WHITE_KING) {
-   return WHITE_PIECE;
-  } else if (icon == RED_MAN || icon == RED_KING) {
-   return RED_PIECE;
-  } else {
-   return NO_PIECE;
-  }
  }
 
  public Integer getPosX() {
@@ -94,10 +84,14 @@ public class SquareGUI extends JButton {
 
  public void removePiece() {
   setIcon(null);
+
+  return;
  }
 
  public void select() {
   setBackground(COLOR_SELECTED);
+
+  return;
  }
 
  /** Paints the component with the BGM. Accepts RGBA. */
