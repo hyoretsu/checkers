@@ -1,5 +1,6 @@
 package com.hyoretsu.checkers.gui;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JFrame;
@@ -8,29 +9,25 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.hyoretsu.checkers.Game;
-import com.hyoretsu.checkers.Square;
+import com.hyoretsu.checkers.Hooks;
 
 /** Main window of the game */
 public class Window extends JFrame {
- private Game game = new Game();
  private BoardGUI boardGUI = new BoardGUI(this);
- private List<Square> validMoves;
+ private List<SquareGUI> validMoves = new ArrayList<>();
  private SquareGUI originSquare = null;
  private Boolean firstClick = true;
  /** Same value as piece color, 0 for White or 1 for Red */
  private Integer turn = 0;
 
  public Window() {
+  new Game();
   this.initComponents();
   this.boardGUI.update();
 
   super.setLocationRelativeTo(null);
   super.setVisible(true);
   super.pack();
- }
-
- public Game getGame() {
-  return this.game;
  }
 
  /**
@@ -42,17 +39,21 @@ public class Window extends JFrame {
   // Starting a new movement
   if (this.firstClick) {
    // Clicked square is empty
-   if (!clickedSquare.hasPiece()) {
+   if (!Hooks.hasPiece(clickedSquare)) {
     return;
    }
 
    // Piece isn't part of the turn
-   if (clickedSquare.getPiece().getColor() != this.turn) {
+   if (Hooks.getPiece(clickedSquare).getColor() != this.turn) {
     JOptionPane.showMessageDialog(this, "It's currently not your turn.");
     return;
    }
 
-   this.validMoves = this.game.getBoard().validMoves(clickedSquare.getSquare());
+   this.validMoves.clear();
+   Hooks.validMoves(clickedSquare).forEach(square -> {
+    SquareGUI validSquare = this.boardGUI.getSquares()[square.getPosX()][square.getPosY()];
+    this.validMoves.add(validSquare);
+   });
 
    // There are no valid moves
    if (this.validMoves.size() == 0) {
@@ -62,19 +63,16 @@ public class Window extends JFrame {
    }
 
    // Highlight all valid moves
-   this.validMoves.forEach(square -> this.boardGUI.getSquares()[square.getPosX()][square.getPosY()].select());
+   this.validMoves.forEach(square -> square.select());
    this.originSquare = clickedSquare;
    this.firstClick = false;
   } else { // Selecting a square to move to
-   Square origin = this.originSquare.getSquare();
-   Square destination = clickedSquare.getSquare();
-
    // Move isn't valid
-   if (!validMoves.contains(destination)) {
+   if (!validMoves.contains(clickedSquare)) {
     return;
    }
 
-   origin.getPiece().move(destination);
+   Hooks.getPiece(this.originSquare).move(Hooks.getSquare(clickedSquare));
    // Reset click logic
    this.firstClick = true;
    // Switch turn

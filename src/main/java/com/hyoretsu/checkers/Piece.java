@@ -6,7 +6,6 @@ public class Piece {
  public static final int RED = 1;
 
  private Square square;
- private Square captureTarget;
  private Integer color;
  private Boolean isKing = false;
 
@@ -21,12 +20,6 @@ public class Piece {
   this.square = square;
   this.color = color;
   square.placePiece(this);
- }
-
- public void addCaptureTarget(Square target) {
-  this.captureTarget = target;
-
-  return;
  }
 
  /** @return color of the piece. */
@@ -58,8 +51,12 @@ public class Piece {
 
   // Moving more than 1 square (capture)
   if (Math.abs(deltaX) > 1 || Math.abs(deltaY) > 1) {
-   this.captureTarget.removePiece();
-   this.captureTarget = null;
+   Integer[] offset = { (deltaX > 0 ? -1 : 1), (deltaY > 0 ? -1 : 1) };
+
+   Integer x = this.square.getPosX() + (deltaX + offset[0]);
+   Integer y = this.square.getPosY() + (deltaY + offset[1]);
+
+   Hooks.getSquare(x, y).removePiece();
   }
 
   this.square = destination;

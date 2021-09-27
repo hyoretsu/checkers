@@ -9,9 +9,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import com.hyoretsu.checkers.Piece;
-import com.hyoretsu.checkers.Square;
-
 /** GUI of a square */
 public class SquareGUI extends JButton {
  // Board Colors
@@ -26,13 +23,11 @@ public class SquareGUI extends JButton {
 
  private Integer x;
  private Integer y;
- private Square square;
  private Color color;
 
- public SquareGUI(Square square, Color tileColor, Window window) {
-  this.square = square;
-  this.x = square.getPosX();
-  this.y = square.getPosY();
+ public SquareGUI(Integer x, Integer y, Color tileColor, Window window) {
+  this.x = x;
+  this.y = y;
   this.color = tileColor;
 
   // Layout and color
@@ -62,24 +57,12 @@ public class SquareGUI extends JButton {
   return;
  }
 
- public Piece getPiece() {
-  return this.square.getPiece();
- }
-
  public Integer getPosX() {
   return this.x;
  }
 
  public Integer getPosY() {
   return this.y;
- }
-
- public Square getSquare() {
-  return this.square;
- }
-
- public boolean hasPiece() {
-  return getIcon() != null;
  }
 
  public void removePiece() {

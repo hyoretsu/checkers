@@ -62,6 +62,9 @@ public class Board {
 
     // Capturing logic
     if (square.hasPiece()) {
+     // Should be able to move backwards (1 line further) if capturing
+     validY += 1;
+
      // Is an enemy piece
      if (square.getPiece().getColor() != origin.getPiece().getColor()) {
       Integer x = square.getPosX() - (origin.getPosX() - square.getPosX());
@@ -72,11 +75,10 @@ public class Board {
        Square destination = this.squares[x][y];
 
        // Can't move or move isn't valid
-       if (destination.hasPiece() || !validX || (validY + 1 == square.getPosY())) {
+       if (destination.hasPiece() || !validX || validY == square.getPosY()) {
         continue;
        }
 
-       origin.getPiece().addCaptureTarget(square);
        possibleMoves.add(destination);
       }
      }
