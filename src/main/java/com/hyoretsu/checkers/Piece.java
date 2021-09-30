@@ -1,5 +1,10 @@
 package com.hyoretsu.checkers;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.hyoretsu.checkers.dtos.Change;
+
 /** A checkers piece */
 public class Piece {
  public static final int WHITE = 0;
@@ -35,8 +40,11 @@ public class Piece {
   * Moves the piece to a new square.
   *
   * @param destination new square of this piece.
+  * @return changes that were made, to be used by the GUI.
   */
- public void move(Square destination) {
+ public List<Change> move(Square destination) {
+  List<Change> changes = new ArrayList<>();
+
   this.square.removePiece();
   destination.placePiece(this);
 
@@ -55,11 +63,15 @@ public class Piece {
 
    Integer x = this.square.getPosX() + (deltaX + offset[0]);
    Integer y = this.square.getPosY() + (deltaY + offset[1]);
+   Square capturedSquare = Hooks.getSquare(x, y);
 
-   Hooks.getSquare(x, y).removePiece();
+   capturedSquare.removePiece();
+   changes.add(new Change(capturedSquare, "remove"));
   }
 
+  changes.add(new Change(this.square, "move", destination));
   this.square = destination;
-  return;
+
+  return changes;
  }
 }

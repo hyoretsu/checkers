@@ -1,10 +1,12 @@
 package com.hyoretsu.checkers.gui;
 
 import java.awt.Color;
+import java.util.List;
+
 import javax.swing.JPanel;
 
 import com.hyoretsu.checkers.Hooks;
-import com.hyoretsu.checkers.Piece;
+import com.hyoretsu.checkers.dtos.Change;
 
 /** GUI of the game board */
 public class BoardGUI extends JPanel {
@@ -25,6 +27,10 @@ public class BoardGUI extends JPanel {
     SquareGUI square = new SquareGUI(x, y, tileColor, window);
     this.squares[x][y] = square;
     add(square);
+
+    if (Hooks.hasPiece(square)) {
+     square.draw(Hooks.getPiece(square));
+    }
    }
   }
 
@@ -51,35 +57,20 @@ public class BoardGUI extends JPanel {
   return this.squares;
  }
 
- public void update() {
-  for (int x = 0; x < 8; x++) {
-   for (int y = 0; y < 8; y++) {
-    SquareGUI squareGUI = this.squares[x][y];
+ public void update(List<Change> changes, List<SquareGUI> moveOptions) {
+  changes.forEach(change -> {
+   SquareGUI originSquare = this.squares[change.origin.getPosX()][change.origin.getPosY()];
 
-    if (Hooks.hasPiece(squareGUI)) {
-     Piece piece = Hooks.getPiece(squareGUI);
+   if (change.action == "move") {
+    originSquare.removePiece();
 
-     // Decide piece's icon
-     if (piece.getColor() == Piece.WHITE) {
-      if (piece.isKing()) {
-       squareGUI.draw(SquareGUI.WHITE_KING);
-      } else {
-       squareGUI.draw(SquareGUI.WHITE_MAN);
-      }
-     } else {
-      if (piece.isKing()) {
-       squareGUI.draw(SquareGUI.RED_KING);
-      } else {
-       squareGUI.draw(SquareGUI.RED_MAN);
-      }
-     }
-    } else { // Piece's captured in the last round
-     squareGUI.removePiece();
-    }
-
-    squareGUI.deselect();
+    SquareGUI destSquare = this.squares[change.destination.getPosX()][change.destination.getPosY()];
+    destSquare.draw(Hooks.getPiece(destSquare));
+   } else if (change.action == "remove") {
+    originSquare.removePiece();
    }
-  }
+  });
+  moveOptions.forEach(square -> square.deselect());
 
   return;
  }

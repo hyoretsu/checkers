@@ -10,10 +10,11 @@ import javax.swing.JPanel;
 
 import com.hyoretsu.checkers.Game;
 import com.hyoretsu.checkers.Hooks;
+import com.hyoretsu.checkers.dtos.Change;
 
 /** Main window of the game */
 public class Window extends JFrame {
- private BoardGUI boardGUI = new BoardGUI(this);
+ private BoardGUI boardGUI;
  private List<SquareGUI> validMoves = new ArrayList<>();
  private SquareGUI originSquare = null;
  private Boolean firstClick = true;
@@ -22,8 +23,8 @@ public class Window extends JFrame {
 
  public Window() {
   new Game();
+  this.boardGUI = new BoardGUI(this);
   this.initComponents();
-  this.boardGUI.update();
 
   super.setLocationRelativeTo(null);
   super.setVisible(true);
@@ -72,12 +73,12 @@ public class Window extends JFrame {
     return;
    }
 
-   Hooks.getPiece(this.originSquare).move(Hooks.getSquare(clickedSquare));
+   List<Change> changes = Hooks.getPiece(this.originSquare).move(Hooks.getSquare(clickedSquare));
    // Reset click logic
    this.firstClick = true;
    // Switch turn
    this.turn = this.turn == 0 ? 1 : 0;
-   this.boardGUI.update();
+   this.boardGUI.update(changes, this.validMoves);
   }
 
   return;

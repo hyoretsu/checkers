@@ -4,10 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
+import com.hyoretsu.checkers.Piece;
 
 /** GUI of a square */
 public class SquareGUI extends JButton {
@@ -16,10 +19,7 @@ public class SquareGUI extends JButton {
  public static final Color COLOR_DARK = new Color(65, 41, 1);
  private static final Color COLOR_SELECTED = new Color(0, 1, 0, 0.4f);
  // Icons
- public static final Icon RED_MAN = new ImageIcon("assets/red_man.png");
- public static final Icon RED_KING = new ImageIcon("assets/red_king.png");
- public static final Icon WHITE_MAN = new ImageIcon("assets/white_man.png");
- public static final Icon WHITE_KING = new ImageIcon("assets/white_king.png");
+ private final Icon[] icons = new Icon[4];
 
  private Integer x;
  private Integer y;
@@ -29,6 +29,11 @@ public class SquareGUI extends JButton {
   this.x = x;
   this.y = y;
   this.color = tileColor;
+
+  this.icons[0] = new ImageIcon("assets/white_man.png");
+  this.icons[1] = new ImageIcon("assets/red_man.png");
+  this.icons[2] = new ImageIcon("assets/white_king.png");
+  this.icons[3] = new ImageIcon("assets/red_king.png");
 
   // Layout and color
   setBackground(this.color);
@@ -51,8 +56,9 @@ public class SquareGUI extends JButton {
   return;
  }
 
- public void draw(Icon pieceType) {
-  setIcon(pieceType);
+ public void draw(Piece piece) {
+  Integer colorIndex = piece.getColor() + ((piece.isKing() ? 1 : 0) * 2);
+  setIcon(this.icons[colorIndex]);
 
   return;
  }
