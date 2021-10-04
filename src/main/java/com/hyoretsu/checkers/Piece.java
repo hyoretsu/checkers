@@ -65,6 +65,27 @@ public class Piece {
    Integer y = this.square.getPosY() + (deltaY + offset[1]);
    Square capturedSquare = Hooks.getSquare(x, y);
 
+   if (this.isKing == true) {
+    // Scan all in-between squares
+    for (Integer i = 0; i < 7; i++) {
+     // Increment coordinate (starting at initial increment, 0)
+     x += (i > 0) ? offset[0] : 0;
+     y += (i > 0) ? offset[1] : 0;
+
+     if (!Hooks.withinBoard(x, y)) {
+      break;
+     }
+
+     capturedSquare = Hooks.getSquare(x, y);
+     if (capturedSquare.hasPiece() == false) {
+      continue;
+     }
+
+     // Stop at first piece found
+     break;
+    }
+   }
+
    capturedSquare.removePiece();
    changes.add(new Change(capturedSquare, "remove"));
   }
