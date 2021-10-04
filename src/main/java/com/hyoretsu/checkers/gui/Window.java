@@ -50,11 +50,8 @@ public class Window extends JFrame {
     return;
    }
 
-   this.validMoves.clear();
-   Hooks.validMoves(clickedSquare).forEach(square -> {
-    SquareGUI validSquare = this.boardGUI.getSquares()[square.getPosX()][square.getPosY()];
-    this.validMoves.add(validSquare);
-   });
+   this.updateValidMoves(clickedSquare);
+   this.validMoves.forEach(square -> square.select());
 
    // There are no valid moves
    if (this.validMoves.size() == 0) {
@@ -63,8 +60,6 @@ public class Window extends JFrame {
     return;
    }
 
-   // Highlight all valid moves
-   this.validMoves.forEach(square -> square.select());
    this.originSquare = clickedSquare;
    this.firstClick = false;
   } else { // Selecting a square to move to
@@ -74,14 +69,49 @@ public class Window extends JFrame {
    }
 
    List<Change> changes = Hooks.getPiece(this.originSquare).move(Hooks.getSquare(clickedSquare));
+   this.boardGUI.update(changes, this.validMoves);
+
+   // Not a simple move (capturing)
+   if (changes.size() > 1) {
+    this.updateValidMoves(clickedSquare);
+    // Filter captures
+    this.validMoves.removeIf(move -> {
+     Integer deltaX = Math.abs(move.getPosX() - clickedSquare.getPosX());
+     Integer deltaY = Math.abs(move.getPosY() - clickedSquare.getPosY());
+
+     // Not a capture
+     if (Math.abs(deltaX) == 1 && Math.abs(deltaY) == 1) {
+      return true;
+     }
+
+     return false;
+    });
+
+    // Another capture is available
+    if (this.validMoves.size() > 0) {
+     this.originSquare = clickedSquare;
+     this.validMoves.forEach(square -> square.select());
+
+     return;
+    }
+   }
+
    // Reset click logic
    this.firstClick = true;
    // Switch turn
    this.turn = this.turn == 0 ? 1 : 0;
-   this.boardGUI.update(changes, this.validMoves);
   }
 
   return;
+ }
+
+ private void updateValidMoves(SquareGUI clickedSquare) {
+  this.validMoves.clear();
+
+  Hooks.validMoves(clickedSquare).forEach(square -> {
+   SquareGUI validSquare = this.boardGUI.getSquares()[square.getPosX()][square.getPosY()];
+   this.validMoves.add(validSquare);
+  });
  }
 
  private JPanel columnsPanel = new JPanel();
