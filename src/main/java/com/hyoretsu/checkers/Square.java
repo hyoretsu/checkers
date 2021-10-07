@@ -2,11 +2,12 @@ package com.hyoretsu.checkers;
 
 /** A square from the board */
 public class Square {
- private Piece piece = null;
+ private Piece piece;
  private Integer x;
  private Integer y;
 
  public Square(Integer x, Integer y) {
+  this.piece = null;
   this.x = x;
   this.y = y;
  }

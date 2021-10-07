@@ -19,7 +19,7 @@ public class SquareGUI extends JButton {
  public static final Color COLOR_DARK = new Color(65, 41, 1);
  private static final Color COLOR_SELECTED = new Color(0, 1, 0, 0.4f);
  // Icons
- private final Icon[] icons = new Icon[4];
+ private final Icon[] icons;
 
  private Integer x;
  private Integer y;
@@ -30,6 +30,7 @@ public class SquareGUI extends JButton {
   this.y = y;
   this.color = tileColor;
 
+  this.icons = new Icon[4];
   this.icons[0] = new ImageIcon("assets/white_man.png");
   this.icons[1] = new ImageIcon("assets/red_man.png");
   this.icons[2] = new ImageIcon("assets/white_king.png");

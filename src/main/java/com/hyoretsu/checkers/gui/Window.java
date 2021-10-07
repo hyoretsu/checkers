@@ -8,22 +8,23 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.hyoretsu.checkers.Game;
-import com.hyoretsu.checkers.Hooks;
+import com.hyoretsu.checkers.Square;
 import com.hyoretsu.checkers.dtos.Change;
+import com.hyoretsu.checkers.util.Const;
+import com.hyoretsu.checkers.util.Hooks;
 
 /** Main window of the game */
 public class Window extends JFrame {
  private BoardGUI boardGUI;
- private List<SquareGUI> validMoves = new ArrayList<>();
- private SquareGUI originSquare = null;
- private Boolean firstClick = true;
- /** Same value as piece color, 0 for White or 1 for Red */
- private Integer turn = 0;
+ private List<SquareGUI> validMoves;
+ private SquareGUI originSquare;
+ private Boolean firstClick;
 
  public Window() {
-  new Game();
-  this.boardGUI = new BoardGUI(this);
+  this.validMoves = new ArrayList<>();
+  this.boardGUI = new BoardGUI(Const.size, this);
+  this.originSquare = null;
+  this.firstClick = true;
   this.initComponents();
 
   super.setLocationRelativeTo(null);
@@ -45,13 +46,17 @@ public class Window extends JFrame {
    }
 
    // Piece isn't part of the turn
-   if (Hooks.getPiece(clickedSquare).getColor() != this.turn) {
+   if (Hooks.getPiece(clickedSquare).getColor() != Hooks.getTurn()) {
     JOptionPane.showMessageDialog(this, "It's currently not your turn.");
     return;
    }
 
-   this.updateValidMoves(clickedSquare);
-   this.validMoves.forEach(square -> square.select());
+   this.validMoves.clear();
+   Hooks.validMoves(clickedSquare).forEach(square -> {
+    SquareGUI squareGUI = convertToGUI(square);
+    this.validMoves.add(squareGUI);
+    squareGUI.select();
+   });
 
    // There are no valid moves
    if (this.validMoves.size() == 0) {
@@ -73,24 +78,15 @@ public class Window extends JFrame {
 
    // Not a simple move (capturing)
    if (changes.size() > 1) {
-    this.updateValidMoves(clickedSquare);
-    // Filter captures
-    this.validMoves.removeIf(move -> {
-     Integer deltaX = Math.abs(move.getPosX() - clickedSquare.getPosX());
-     Integer deltaY = Math.abs(move.getPosY() - clickedSquare.getPosY());
+    this.validMoves.clear();
+    List<Square> furtherCaptures = Hooks.getPiece(clickedSquare).filterCaptures();
 
-     // Not a capture
-     if (Math.abs(deltaX) == 1 && Math.abs(deltaY) == 1) {
-      return true;
-     }
-
-     return false;
-    });
-
-    // Another capture is available
-    if (this.validMoves.size() > 0) {
+    if (!furtherCaptures.isEmpty()) {
      this.originSquare = clickedSquare;
-     this.validMoves.forEach(square -> square.select());
+     furtherCaptures.forEach(move -> {
+      this.validMoves.add(this.convertToGUI(move));
+      convertToGUI(move).select();
+     });
 
      return;
     }
@@ -98,20 +94,14 @@ public class Window extends JFrame {
 
    // Reset click logic
    this.firstClick = true;
-   // Switch turn
-   this.turn = this.turn == 0 ? 1 : 0;
+   Hooks.nextTurn();
   }
 
   return;
  }
 
- private void updateValidMoves(SquareGUI clickedSquare) {
-  this.validMoves.clear();
-
-  Hooks.validMoves(clickedSquare).forEach(square -> {
-   SquareGUI validSquare = this.boardGUI.getSquares()[square.getPosX()][square.getPosY()];
-   this.validMoves.add(validSquare);
-  });
+ private SquareGUI convertToGUI(Square square) {
+  return this.boardGUI.getSquares()[square.getPosX()][square.getPosY()];
  }
 
  private JPanel columnsPanel = new JPanel();

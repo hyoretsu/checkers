@@ -1,18 +1,17 @@
-package com.hyoretsu.checkers;
+package com.hyoretsu.checkers.util;
 
 import java.util.List;
 
+import com.hyoretsu.checkers.Board;
+import com.hyoretsu.checkers.Piece;
+import com.hyoretsu.checkers.Square;
 import com.hyoretsu.checkers.gui.SquareGUI;
 
 public class Hooks {
  private static Board board;
 
- private Hooks() {
- }
-
  public Hooks(Board gameBoard) {
   board = gameBoard;
-  new Hooks();
  }
 
  public static Piece getPiece(SquareGUI squareGUI) {
@@ -29,19 +28,25 @@ public class Hooks {
   return board.getSquare(squareGUI.getPosX(), squareGUI.getPosY());
  }
 
+ public static Integer getTurn() {
+  return board.getTurn();
+ }
+
  public static Boolean hasPiece(SquareGUI squareGUI) {
   Square square = board.getSquare(squareGUI.getPosX(), squareGUI.getPosY());
 
   return square.hasPiece();
  }
 
- public static List<Square> validMoves(SquareGUI destination) {
-  Square square = board.getSquare(destination.getPosX(), destination.getPosY());
+ public static void nextTurn() {
+  board.nextTurn();
 
-  return board.validMoves(square);
+  return;
  }
 
- public static Boolean withinBoard(Integer x, Integer y) {
-  return (x >= 0 && x < 8) && (y >= 0 && y < 8);
+ public static List<Square> validMoves(SquareGUI destination) {
+  Piece piece = board.getSquare(destination.getPosX(), destination.getPosY()).getPiece();
+
+  return piece.validMoves();
  }
 }

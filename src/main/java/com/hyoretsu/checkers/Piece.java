@@ -4,17 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hyoretsu.checkers.dtos.Change;
+import com.hyoretsu.checkers.util.Const;
+import com.hyoretsu.checkers.util.Hooks;
 
 /** A checkers piece */
 public class Piece {
+ // Team colors
  public static final int WHITE = 0;
  public static final int RED = 1;
 
  private Square square;
+ /** 0 for White and 1 for Red */
  private Integer color;
- private Boolean isKing = false;
+ private Boolean isKing;
 
  public Piece(Square square, Integer color) {
+  this.isKing = false;
   this.square = square;
   this.color = color;
   square.placePiece(this);
@@ -36,6 +41,25 @@ public class Piece {
   return this.isKing;
  }
 
+ public List<Square> filterCaptures() {
+  List<Square> movesList = this.validMoves();
+
+  // Filter captures
+  movesList.removeIf(move -> {
+   Integer deltaX = Math.abs(move.getPosX() - this.square.getPosX());
+   Integer deltaY = Math.abs(move.getPosY() - this.square.getPosY());
+
+   // Not a capture
+   if (deltaX == 1 && deltaY == 1) {
+    return true;
+   }
+
+   return false;
+  });
+
+  return movesList;
+ }
+
  /**
   * Moves the piece to a new square.
   *
@@ -48,51 +72,147 @@ public class Piece {
   this.square.removePiece();
   destination.placePiece(this);
 
-  // King transformation
-  if (this.color == Piece.WHITE && destination.getPosY() == 0
-    || this.color == Piece.RED && destination.getPosY() == 7) {
+  // Moving to the last square
+  if (this.color * 0 == destination.getPosY() || this.color * 7 == destination.getPosY()) {
    this.isKing = true;
   }
 
-  Integer deltaX = destination.getPosX() - this.square.getPosX();
-  Integer deltaY = destination.getPosY() - this.square.getPosY();
-
-  // Moving more than 1 square (capture)
-  if (Math.abs(deltaX) > 1 || Math.abs(deltaY) > 1) {
-   Integer[] offset = { (deltaX > 0 ? -1 : 1), (deltaY > 0 ? -1 : 1) };
-
-   Integer x = this.square.getPosX() + (deltaX + offset[0]);
-   Integer y = this.square.getPosY() + (deltaY + offset[1]);
-   Square capturedSquare = Hooks.getSquare(x, y);
-
-   if (this.isKing == true) {
-    // Scan all in-between squares
-    for (Integer i = 0; i < 7; i++) {
-     // Increment coordinate (starting at initial increment, 0)
-     x += (i > 0) ? offset[0] : 0;
-     y += (i > 0) ? offset[1] : 0;
-
-     if (!Hooks.withinBoard(x, y)) {
-      break;
-     }
-
-     capturedSquare = Hooks.getSquare(x, y);
-     if (capturedSquare.hasPiece() == false) {
-      continue;
-     }
-
-     // Stop at first piece found
-     break;
-    }
-   }
-
-   capturedSquare.removePiece();
-   changes.add(new Change(capturedSquare, "remove"));
-  }
+  this.handleCapture(destination, changes);
 
   changes.add(new Change(this.square, "move", destination));
   this.square = destination;
 
   return changes;
+ }
+
+ private void handleCapture(Square destination, List<Change> changes) {
+  // [deltaX, deltaY]
+  Integer[] delta = new Integer[2];
+  delta[0] = destination.getPosX() - this.square.getPosX();
+  delta[1] = destination.getPosY() - this.square.getPosY();
+
+  // Moving 1 square (not capturing)
+  if (Math.abs(delta[0]) == 1 || Math.abs(delta[1]) == 1) {
+   return;
+  }
+
+  // [offsetX, offsetY]
+  Integer[] offset = new Integer[2];
+  offset[0] = delta[0] > 0 ? -1 : 1;
+  offset[1] = delta[1] > 0 ? -1 : 1;
+
+  Integer x = this.square.getPosX() + (delta[0] + offset[0]);
+  Integer y = this.square.getPosY() + (delta[1] + offset[1]);
+  Square capturedSquare = Hooks.getSquare(x, y);
+
+  if (this.isKing == true) {
+   // Scan all in-between squares
+   for (int i = 0; i < 7; i++) {
+    // Increment coordinate to next square (or start at first one)
+    x += (i > 0) ? offset[0] : 0;
+    y += (i > 0) ? offset[1] : 0;
+
+    // Stop as soon as it reaches outside of the board
+    if (!withinBoard(x, y)) {
+     break;
+    }
+
+    capturedSquare = Hooks.getSquare(x, y);
+
+    // Ignore empty squares
+    if (!capturedSquare.hasPiece()) {
+     continue;
+    }
+
+    // Stop at first piece found
+    break;
+   }
+  }
+
+  capturedSquare.removePiece();
+  changes.add(new Change(capturedSquare, "remove"));
+
+  return;
+ }
+
+ /** Scans the board for possible moves. */
+ public List<Square> validMoves() {
+  List<Square> possibleMoves = new ArrayList<>();
+
+  Integer colorOffset = this.color == Piece.WHITE ? -1 : 1; // Takes care of each color's movement direction
+  Integer[] origin = { this.square.getPosX(), this.square.getPosY() }; // Coordinates (x, y) for origin square
+
+  List<Square> diagonalSquares = new ArrayList<>();
+
+  Integer[] sidewaysX = { origin[0] - 1, origin[0] + 1 }; // [left, right]
+  Integer[] directionY = { origin[1] + colorOffset, origin[1] - colorOffset }; // [forward, backward]
+  for (int i = 0; i <= 1; i++) {
+   for (int j = 0; j <= 1; j++) {
+    if (this.withinBoard(sidewaysX[i], directionY[j])) {
+     diagonalSquares.add(Hooks.getSquare(sidewaysX[i], directionY[j]));
+    }
+   }
+  }
+
+  diagonalSquares.forEach(square -> this.handleValidCheck(square, possibleMoves));
+
+  return possibleMoves;
+ }
+
+ private void handleValidCheck(Square square, List<Square> validList) {
+  Integer limit = this.isKing ? 6 : 1; // Number of possible squares after capturing
+
+  // Tells which diagonal to scan
+  Integer[] delta = { square.getPosX() - this.square.getPosX(), square.getPosY() - this.square.getPosY() };
+  for (int i = 0; i < limit; i++) {
+   Integer currentX = square.getPosX() + (delta[0] * i);
+   Integer currentY = square.getPosY() + (delta[1] * i);
+   if (!this.withinBoard(currentX, currentY)) {
+    break;
+   }
+
+   Square currentSquare = Hooks.getSquare(currentX, currentY);
+
+   // Capturing logic
+   if (currentSquare.hasPiece()) {
+    // Same team, unable to capture
+    if (currentSquare.getPiece().getColor() == this.color) {
+     break;
+    }
+
+    Integer captureX = currentSquare.getPosX() + delta[0];
+    Integer captureY = currentSquare.getPosY() + delta[1];
+
+    // Outside of the board, invalid move
+    if (!this.withinBoard(captureX, captureY)) {
+     break;
+    }
+
+    Square destination = Hooks.getSquare(captureX, captureY);
+
+    // Next square also has a piece, unable to move
+    if (destination.hasPiece()) {
+     break;
+    }
+
+    validList.add(destination);
+    i += 1;
+
+    continue;
+   }
+
+   Integer colorOffset = this.color == Piece.WHITE ? -1 : 1;
+   // Normal piece trying to move backwards
+   if (!this.isKing && delta[1] != colorOffset) {
+    break;
+   }
+
+   validList.add(currentSquare);
+   continue;
+  }
+ }
+
+ private Boolean withinBoard(Integer x, Integer y) {
+  return (x >= 0 && x < Const.size) && (y >= 0 && y < Const.size);
  }
 }

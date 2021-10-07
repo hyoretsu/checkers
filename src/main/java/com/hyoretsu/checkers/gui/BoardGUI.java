@@ -5,24 +5,28 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import com.hyoretsu.checkers.Hooks;
 import com.hyoretsu.checkers.dtos.Change;
+import com.hyoretsu.checkers.util.Hooks;
 
 /** GUI of the game board */
 public class BoardGUI extends JPanel {
- private SquareGUI[][] squares = new SquareGUI[8][8];
+ private SquareGUI[][] squares;
+ private Integer size;
 
- public BoardGUI(Window window) {
-  setLayout(new java.awt.GridLayout(8, 8));
+ public BoardGUI(Integer dimensions, Window window) {
+  this.squares = new SquareGUI[dimensions][dimensions];
+  this.size = dimensions;
+
+  setLayout(new java.awt.GridLayout(dimensions, dimensions));
   this.createSquares(window);
  }
 
- /** Fills the board with 64 squares */
+ /** Fills the board with squares */
  private void createSquares(Window window) {
   // Up-down
-  for (int y = 0; y < 8; y++) {
+  for (int y = 0; y < this.size; y++) {
    // Left-right
-   for (int x = 0; x < 8; x++) {
+   for (int x = 0; x < this.size; x++) {
     Color tileColor = this.defineColor(x, y);
     SquareGUI square = new SquareGUI(x, y, tileColor, window);
     this.squares[x][y] = square;
