@@ -44,6 +44,68 @@ public class Piece {
  public List<Square> filterCaptures() {
   List<Square> movesList = this.validMoves();
 
+  if (this.isKing) {
+   Square[][] diagonals = this.findDiagonals();
+   // Separate moves into each diagonal
+   Square[][] filteredDiagonals = new Square[4][7];
+
+   // Scan each diagonal
+   for (int direction = 0; direction < 4; direction++) {
+    Integer position = 0;
+
+    // Scan possible moves
+    for (Square move : movesList) {
+     // Go through each position
+     for (int j = 0; j < diagonals[direction].length; j++) {
+      // Move is part of that diagonal
+      if (move == diagonals[direction][j]) {
+       // Update index to put in
+       if (filteredDiagonals[direction][position] != null) {
+        position += 1;
+       }
+
+       // Add it to the array with each diagonal's possible moves
+       filteredDiagonals[direction][position] = move;
+      }
+     }
+    }
+   }
+   movesList.clear();
+
+   // Filter captures
+   for (Square[] diagonal : filteredDiagonals) {
+    // Skip empty diagonals
+    if (diagonal[0] == null && diagonal[1] == null) {
+     continue;
+    }
+
+    Integer validX, previousX = this.square.getPosX();
+    // To the right of piece, incrementing X
+    if (diagonal[0].getPosX() - this.square.getPosX() > 0) {
+     validX = 1;
+    } else { // To the left of piece, decrementing X
+     validX = -1;
+    }
+
+    for (int i = 0; i < diagonal.length; i++) {
+     Square move = diagonal[i];
+
+     // Stop after reaching the end
+     if (move == null) {
+      continue;
+     }
+
+     // Normal move
+     if (move.getPosX() - previousX == validX) {
+      previousX = move.getPosX();
+      continue;
+     } else { // 1 square was skipped, meaning the rest are part of a valid capture
+      movesList.add(move);
+     }
+    }
+   }
+  }
+
   // Filter captures
   movesList.removeIf(move -> {
    Integer deltaX = Math.abs(move.getPosX() - this.square.getPosX());
@@ -58,6 +120,47 @@ public class Piece {
   });
 
   return movesList;
+ }
+
+ private Square[][] findDiagonals() {
+  Square[][] diagonals = new Square[4][7];
+  Integer originX = this.square.getPosX();
+  Integer originY = this.square.getPosY();
+
+  for (int i = 0; i < 4; i++) {
+   Integer[] delta = new Integer[2];
+
+   if (i == 0) {
+    // Left-up
+    delta[0] = -1;
+    delta[1] = -1;
+   } else if (i == 1) {
+    // Left-down
+    delta[0] = -1;
+    delta[1] = 1;
+   } else if (i == 2) {
+    // Right-up
+    delta[0] = 1;
+    delta[1] = -1;
+   } else if (i == 3) {
+    // Right-down
+    delta[0] = 1;
+    delta[1] = 1;
+   }
+
+   for (int j = 1; j <= 7; j++) {
+    Integer x = originX + (delta[0] * j);
+    Integer y = originY + (delta[1] * j);
+
+    if (!this.withinBoard(x, y)) {
+     break;
+    }
+
+    diagonals[i][j - 1] = Hooks.getSquare(x, y);
+   }
+  }
+
+  return diagonals;
  }
 
  /**
