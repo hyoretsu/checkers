@@ -124,6 +124,11 @@ public class Piece {
      continue;
     }
 
+    // Unable to capture friendly pieces
+    if (capturedSquare.getPiece().getColor() == this.color) {
+     return;
+    }
+
     // Stop at first piece found
     break;
    }
