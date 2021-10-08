@@ -237,6 +237,7 @@ public class Piece {
    }
   }
 
+  Hooks.decreaseTeamCount(capturedSquare.getPiece());
   capturedSquare.removePiece();
   changes.add(new Change(capturedSquare, "remove"));
 

@@ -14,6 +14,12 @@ public class Hooks {
   board = gameBoard;
  }
 
+ public static void decreaseTeamCount(Piece piece) {
+  board.decreaseTeamCount(piece);
+
+  return;
+ }
+
  public static Piece getPiece(SquareGUI squareGUI) {
   Square square = board.getSquare(squareGUI.getPosX(), squareGUI.getPosY());
 

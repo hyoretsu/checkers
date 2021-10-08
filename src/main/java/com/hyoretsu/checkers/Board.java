@@ -8,10 +8,14 @@ public class Board {
  private Square[][] squares;
  /** Same value as team color, 0 for White or 1 for Red */
  private Integer turn;
+ private Integer redCount;
+ private Integer whiteCount;
 
  public Board(Integer dimensions) {
   this.squares = new Square[dimensions][dimensions];
   this.turn = 0;
+  this.redCount = 0;
+  this.whiteCount = 0;
 
   for (int x = 0; x < dimensions; x++) {
    for (int y = 0; y < dimensions; y++) {
@@ -35,6 +39,7 @@ public class Board {
    } else {
     evenX.forEach(x -> new Piece(this.squares[x][y], Piece.WHITE));
    }
+   this.whiteCount += 1;
   });
   redRows.forEach(y -> {
    if (y % 2 == 0) {
@@ -43,8 +48,33 @@ public class Board {
     evenX.forEach(x -> new Piece(this.squares[x][y], Piece.RED));
    }
   });
+  this.whiteCount = evenX.size() * whiteRows.size();
+  this.redCount = evenX.size() * redRows.size();
 
   return;
+ }
+
+ public void decreaseTeamCount(Piece piece) {
+  Integer teamColor = piece.getColor();
+
+  if (teamColor == Piece.WHITE) {
+   this.whiteCount -= 1;
+  } else if (teamColor == Piece.RED) {
+   this.redCount -= 1;
+  }
+
+  return;
+ }
+
+ /**
+  * Returns how many pieces of each team are left on the board
+  *
+  * @return [whiteCount, redCount]
+  */
+ public Integer[] getPieceCount() {
+  Integer[] count = { this.whiteCount, this.redCount };
+
+  return count;
  }
 
  /**

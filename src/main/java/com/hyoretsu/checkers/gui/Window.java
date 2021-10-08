@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.hyoretsu.checkers.Game;
 import com.hyoretsu.checkers.Square;
 import com.hyoretsu.checkers.dtos.Change;
 import com.hyoretsu.checkers.util.Const;
@@ -75,6 +76,8 @@ public class Window extends JFrame {
 
    List<Change> changes = Hooks.getPiece(this.originSquare).move(Hooks.getSquare(clickedSquare));
    this.boardGUI.update(changes, this.validMoves);
+
+   Game.updateTeamCount();
 
    // Not a simple move (capturing)
    if (changes.size() > 1) {
