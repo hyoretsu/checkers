@@ -269,6 +269,7 @@ public class Piece {
 
  private void handleValidCheck(Square square, List<Square> validList) {
   Integer limit = this.isKing ? 6 : 1; // Number of possible squares after capturing
+  Boolean alreadyEating = false;
 
   // Tells which diagonal to scan
   Integer[] delta = { square.getPosX() - this.square.getPosX(), square.getPosY() - this.square.getPosY() };
@@ -288,6 +289,11 @@ public class Piece {
      break;
     }
 
+    // Cannot eat two pieces in the same move
+    if (alreadyEating) {
+     break;
+    }
+
     Integer captureX = currentSquare.getPosX() + delta[0];
     Integer captureY = currentSquare.getPosY() + delta[1];
 
@@ -304,6 +310,7 @@ public class Piece {
     }
 
     validList.add(destination);
+    alreadyEating = true;
     i += 1;
 
     continue;
