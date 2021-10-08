@@ -3,6 +3,8 @@ package com.hyoretsu.checkers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import com.hyoretsu.checkers.dtos.Change;
 import com.hyoretsu.checkers.util.Const;
 import com.hyoretsu.checkers.util.Hooks;
@@ -177,7 +179,11 @@ public class Piece {
 
   // Moving to the last square
   if (this.color * 0 == destination.getPosY() || this.color * 7 == destination.getPosY()) {
-   this.isKing = true;
+   // Either force turn or ask, if the streak hasn't ended yet
+   if (this.validMoves().isEmpty() || JOptionPane.showConfirmDialog(null, "Do you want to turn your piece into a king?",
+     "King transformation", JOptionPane.YES_NO_OPTION) == 1) {
+    this.isKing = true;
+   }
   }
 
   this.handleCapture(destination, changes);
