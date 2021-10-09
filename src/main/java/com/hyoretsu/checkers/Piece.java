@@ -177,6 +177,11 @@ public class Piece {
   this.square.removePiece();
   destination.placePiece(this);
 
+  this.handleCapture(destination, changes);
+
+  changes.add(new Change(this.square, "move", destination));
+  this.square = destination;
+
   // Moving to the last square
   if (this.color * 0 == destination.getPosY() || this.color * 7 == destination.getPosY()) {
    // Either force turn or ask, if the streak hasn't ended yet
@@ -185,11 +190,6 @@ public class Piece {
     this.isKing = true;
    }
   }
-
-  this.handleCapture(destination, changes);
-
-  changes.add(new Change(this.square, "move", destination));
-  this.square = destination;
 
   return changes;
  }
