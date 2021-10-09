@@ -31,10 +31,10 @@ public class SquareGUI extends JButton {
   this.color = tileColor;
 
   this.icons = new Icon[4];
-  this.icons[0] = new ImageIcon("assets/white_man.png");
-  this.icons[1] = new ImageIcon("assets/red_man.png");
-  this.icons[2] = new ImageIcon("assets/white_king.png");
-  this.icons[3] = new ImageIcon("assets/red_king.png");
+  this.icons[0] = new ImageIcon(getClass().getResource("/res/white_man.png"));
+  this.icons[1] = new ImageIcon(getClass().getResource("/res/red_man.png"));
+  this.icons[2] = new ImageIcon(getClass().getResource("/res/white_king.png"));
+  this.icons[3] = new ImageIcon(getClass().getResource("/res/red_king.png"));
 
   // Layout and color
   setBackground(this.color);
